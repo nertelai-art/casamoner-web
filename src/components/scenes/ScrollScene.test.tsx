@@ -56,7 +56,8 @@ describe('ScrollScene', () => {
     expect(onFrame).toHaveBeenCalled();
   });
 
-  it('M-7 plays once: at the end it stays finished, folds its scroll track and keeps the view still', () => {
+  it('M-7 plays once: at the end it stays finished, folds its scroll track once scrolling stops, and keeps the view still', () => {
+    vi.useFakeTimers();
     mockReducedMotion(false);
     const onFrame = vi.fn();
     const frames: FrameRequestCallback[] = [];
@@ -91,13 +92,21 @@ describe('ScrollScene', () => {
 
     scrollTo(-2000); // arriba al final
     expect(onFrame).toHaveBeenLastCalledWith(1);
+    // Mentre encara s'està fent scroll (p. ex. un enllaç amb scroll suau) no es plega:
+    // un scroll instantani aturaria la navegació a mig camí.
+    expect(track.dataset.done).not.toBe('true');
+    expect(scrollBy).not.toHaveBeenCalled();
+
+    // Tornar amunt ja no el rebobina, ni abans de plegar-se.
+    onFrame.mockClear();
+    scrollTo(-1500);
+    expect(onFrame).not.toHaveBeenCalled();
+
+    // Quan el scroll s'atura, es plega i es compensa.
+    act(() => vi.advanceTimersByTime(250));
     expect(track.dataset.done).toBe('true');
     expect(scrollBy).toHaveBeenCalledWith({ top: -2000, behavior: 'instant' });
-
-    // Tornar amunt ja no el rebobina.
-    onFrame.mockClear();
-    scrollTo(-500);
-    expect(onFrame).not.toHaveBeenCalled();
+    vi.useRealTimers();
     vi.unstubAllGlobals();
   });
 });
