@@ -1,3 +1,4 @@
+import { breadLabels } from '@/data/catalog';
 import { site } from '@/data/site';
 import { storeRepository } from '@/data/stores';
 import { buildLlmsTxt } from '@/lib/seo/llms';
@@ -11,8 +12,7 @@ export function GET() {
     facts: [
       'Fleca i pastisseria de Girona amb 21 botigues a les comarques gironines.',
       'Tots els productes de fleca i pastisseria es fan amb farines ecològiques, lliures de pesticides i glifosat.',
-      'Pa Etiqueta Negra: massa mare, farines ecològiques, aigua purificada i vivificada i sal marina sense refinar.',
-      'Pa Etiqueta Blanca: massa mare i llevat París, farines de la terra, aigua purificada i vivificada i sal marina sense refinar.',
+      ...breadLabels.map((l) => `${l.name}: ${l.description} Pans: ${l.breads.map((b) => b.name).join(', ')}.`),
       'Pastissos personalitzats per encàrrec a qualsevol botiga.',
       'Quiches (base de kamut integral ecològic) i coques de recapte per encàrrec.',
       `Càtering per a particulars, empreses i celebracions: ${site.cateringEmail}.`,

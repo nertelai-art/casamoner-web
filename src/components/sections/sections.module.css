@@ -9,54 +9,54 @@
 }
 
 /* Pans */
-.breads {
+.labels {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.5rem;
   margin-top: clamp(2rem, 5vw, 4rem);
+  align-items: start;
 }
 
-.bread {
+.label {
   display: grid;
-  grid-template-rows: auto 1fr;
   border-radius: calc(var(--radius) * 1.3);
   overflow: hidden;
   background: var(--card);
   border: 1px solid var(--line);
 }
 
-.bread[data-variant='dark'] {
+.label[data-variant='negra'] {
   background: #1c140f;
   color: #f4ebdd;
   border-color: transparent;
 }
 
-.breadImage {
+.labelImage {
   position: relative;
   aspect-ratio: 16 / 10;
   overflow: hidden;
 }
 
-.breadImage img {
+.labelImage img {
   object-fit: cover;
   transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.bread:hover .breadImage img {
+.label:hover .labelImage img {
   transform: scale(1.05);
 }
 
-.breadBody {
+.labelBody {
   padding: 1.5rem 1.6rem 1.8rem;
   display: grid;
-  gap: 0.5rem;
+  gap: 0.6rem;
 }
 
-.breadBody h3 {
+.labelBody h3 {
   font-size: clamp(1.8rem, 3vw, 2.4rem);
 }
 
-.label {
+.tag {
   justify-self: start;
   font-size: 0.72rem;
   font-weight: 600;
@@ -65,6 +65,61 @@
   padding: 0.3rem 0.7rem;
   border: 1px solid currentColor;
   border-radius: 999px;
+}
+
+.breadList {
+  list-style: none;
+  margin: 0.6rem 0 0;
+  padding: 0;
+  border-top: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+}
+
+.breadList li {
+  border-bottom: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+}
+
+.breadList summary {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.55rem 0;
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+}
+
+.breadList summary::-webkit-details-marker {
+  display: none;
+}
+
+.breadList summary::after {
+  content: '+';
+  margin-left: auto;
+  font-family: var(--font-sans);
+  color: var(--crust);
+  transition: transform 0.3s;
+}
+
+.label[data-variant='negra'] .breadList summary::after {
+  color: #e9b04a;
+}
+
+.breadList details[open] summary::after {
+  transform: rotate(45deg);
+}
+
+.breadThumb {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.breadList details p {
+  padding: 0 0 0.9rem calc(56px + 0.9rem);
+  font-size: 0.95rem;
+  opacity: 0.8;
 }
 
 /* Pastissos */
@@ -288,7 +343,7 @@
 }
 
 @media (max-width: 800px) {
-  .breads,
+  .labels,
   .cateringGrid {
     grid-template-columns: 1fr;
   }

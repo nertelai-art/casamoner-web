@@ -1,0 +1,17 @@
+/* L'escenari és el forn: fosc, amb una resplendor que puja i baixa amb la cocció. */
+.oven {
+  --glow: 0;
+  background:
+    radial-gradient(ellipse 60% 55% at 68% 62%, rgb(255 120 30 / calc(0.08 + var(--glow) * 0.38)), transparent 70%),
+    radial-gradient(ellipse at 70% 60%, #3a2112 0%, transparent 65%),
+    #140c07;
+  color: #f4ebdd;
+}
+
+@media (max-width: 900px) {
+  .oven {
+    background:
+      radial-gradient(ellipse 90% 45% at 50% 70%, rgb(255 120 30 / calc(0.08 + var(--glow) * 0.38)), transparent 70%),
+      #140c07;
+  }
+}

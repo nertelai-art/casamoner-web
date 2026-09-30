@@ -1,68 +1,80 @@
-# 002 · Escenes animades lligades al scroll
+# 002 · Escenes animades lligades al scroll (v2)
 
-Tres escenes on la foto «cobra vida» mentre l'usuari fa scroll. No són vídeos:
-són capes de la mateixa foto retallades (`clip-path`) i mogudes fotograma a
-fotograma segons el progrés de scroll (0 → 1). Una sola descàrrega d'imatge per
-escena.
+> **v2 (30/09/2026)**, després de la revisió del client:
+> - *Pans*: fora la foto estirada. El pa es modela en 3D per codi: puja i es cou.
+> - *Pastissos*: fora el cinema antic. El pastís entra caminant a trompicons
+>   dins la seva pròpia foto, de la qual s'ha esborrat.
+> - *Panettone* (abans «magdalena»: a la web actual la foto és el **Panettone
+>   de Nadal ecològic**): cada peça és un retall amb fons transparent i es munta
+>   directament sobre el fons de la pàgina, sense targeta.
+> - Nova escena sota el hero: croissant i cafè (spec 005).
 
 ## Motor comú
 
-- `ScrollScene` fixa l'escenari (`position: sticky`) dins d'un contenidor alt i
-  calcula el progrés 0–1 amb `requestAnimationFrame`, sense re-renderitzar React
-  a cada fotograma: cada escena rep `apply(progress)` i escriu estils a refs.
-- Cada escena és un **model pur** `frame(progress) → estat de capes` + una
-  vista prima. Afegir una escena no toca el motor (obert/tancat).
+- `ScrollScene` fixa l'escenari (`sticky`) i passa el progrés 0–1 sense
+  re-renderitzar React.
+- Cada escena és un **model pur** `frame(progress) → estat` (provat) + una vista.
+- Escenes 3D (three.js via `@react-three/fiber`), seguint la guia
+  `scroll-3d-scenes`: `frameloop="demand"`, suavitzat amb `damp` i `delta`
+  limitat, zero objectes nous per fotograma, il·luminació sense xarxa, codi de
+  three.js carregat amb `import()` quan l'escena és a prop.
 
 ### Criteris del motor
 
-- **M-1** `segment(p, a, b)` torna el progrés local 0–1 dins l'interval [a, b].
-- **M-2** `quantize(p, n)` arrodoneix cap avall a `n` fotogrames (efecte
-  cinema antic).
-- **M-3** El PRNG amb llavor és determinista: mateixa llavor, mateixa seqüència.
-- **M-4** Amb `prefers-reduced-motion: reduce` l'escena es mostra directament al
-  fotograma final, sense escenari enganxat ni scroll extra.
-- **M-5** Totes les escenes, al progrés 1, deixen cada capa al seu lloc
-  (sense translació, rotació ni escala) perquè la foto quedi intacta.
+- **M-1** `segment(p, a, b)` torna el progrés local 0–1 dins [a, b].
+- **M-3** El PRNG amb llavor és determinista.
+- **M-4** Amb `prefers-reduced-motion` l'escena mostra el fotograma final, sense
+  escenari enganxat.
+- **M-5** Al progrés 1, cada peça és al seu lloc final.
+- **M-6** Sense WebGL, les escenes 3D mostren una foto real equivalent.
 
-## Escena 1 · Magdalena de cítrics (secció Dolços)
+## Escena 1 · El pa puja i es cou (Pans) — 3D
 
-Foto: `dolcos/panettone.jpg`. Ordre narratiu:
+Una barra de pa modelada per codi (massa amb tres greixes) sobre una pala de fusta.
 
-1. apareix la magdalena (creix des del centre),
-2. cauen les llimones i taronges des de dalt i reboten,
-3. cauen els trossets petits de fruita confitada.
+1. Fermentació: la massa, pàl·lida i baixa, s'infla.
+2. Forn: resplendor càlida; la crosta passa de color massa a daurat torrat i
+   les greixes s'obren.
+3. Fora del forn: vapor.
 
-- **A-1** Al progrés 0 cap capa de primer pla és visible.
-- **A-2** La magdalena és completament visible abans que cap cítric comenci a caure.
-- **A-3** Cap trosset petit comença a caure abans que tots els cítrics hagin aterrat.
-- **A-4** Al progrés 1 es compleix M-5.
+- **P-1** Al progrés 0 l'alçada relativa és ≤ 0,55 i el daurat és 0.
+- **P-2** L'alçada creix de manera monòtona durant la fermentació i arriba a 1.
+- **P-3** El daurat només comença quan la fermentació ha acabat.
+- **P-4** Les greixes s'obren a mesura que es dauren.
+- **P-5** Al progrés 1: alçada 1, daurat 1, sense resplendor.
 
-## Escena 2 · Cinema antic (secció Pastissos)
+No es mostren xifres (hores, graus) que el client no ha donat.
 
-Foto: `pastissos/formatge-macadamia.jpg`. El pastís entra **des de dalt a la
-dreta, a trompicons**, dins d'un fotograma de pel·lícula gran, amb gra,
-parpelleig, ratllades i to sèpia. En aturar-se recupera el color.
+## Escena 2 · El pastís arriba caminant (Pastissos)
 
-- **F-1** El moviment va a salts: dins d'un mateix fotograma quantitzat la
-  posició no canvia.
-- **F-2** La posició inicial és a dalt a la dreta (x > 0, y < 0) i la final és 0.
-- **F-3** El sèpia és 1 mentre es mou i 0 al final.
-- **F-4** El tremolor (jitter) és determinista i s'apaga en aterrar.
+Foto: `pastissos/formatge-macadamia.jpg`, separada en dues capes generades en
+compilar (`scripts/cake-layers.mjs`): el **fons sense pastís** (la fusta
+clonada de just a sobre, on la veta continua) i el **pastís retallat** amb
+transparència.
 
-## Escena 3 · El pa s'infla i es cou (secció Pans)
+- **C-1** Al principi el pastís és fora del quadre (a la dreta).
+- **C-2** Camina a passes: entre passa i passa toca a terra (desplaçament
+  vertical 0) i durant la passa s'aixeca i s'inclina.
+- **C-3** Ensopega una vegada (inclinació més gran que la d'una passa normal)
+  i es refà.
+- **C-4** En arribar s'aixafa i rebota (escala Y < 1 i després 1).
+- **C-5** Al progrés 1 és exactament al seu lloc de la foto: la foto queda intacta.
+- **C-6** L'ombra de sota segueix el pastís i s'encongeix quan salta.
 
-Foto: `general/obrador-safates.jpg` (cinc barres sobre safates de forn).
+## Escena 3 · Panettone de cítrics (Dolços)
 
-1. Fermentació: les barres, pàl·lides i aixafades, s'inflen (escala vertical
-   des de la base de la safata).
-2. Forn: resplendor taronja, onada de calor, la crosta es daura.
-3. Fora del forn: vapor que puja.
+Foto: `dolcos/panettone.jpg`, trossejada en compilar
+(`scripts/panettone-layers.mjs`) en retalls amb fons transparent: el
+panettone, cada cítric i els trossets de fruita confitada. El fons blanc de la
+foto s'elimina (clau de color), així les peces es veuen sobre el fons de la
+pàgina, en mode clar i en mode fosc.
 
-Un indicador mostra hores de fermentació (0 → 24 h) i temperatura (20 → 240 °C).
+1. apareix el panettone,
+2. cauen les llimones i taronges i reboten,
+3. cauen els trossets petits.
 
-- **P-1** Al progrés 0 les barres són a escala vertical ≤ 0.6 i pàl·lides
-  (saturació < 1).
-- **P-2** Les barres pugen de manera esglaonada (de dalt a baix), no alhora.
-- **P-3** El daurat (saturació) només comença quan la barra ja ha pujat.
-- **P-4** L'indicador és monòton creixent.
-- **P-5** Al progrés 1 es compleix M-5.
+- **A-1** Al progrés 0 cap peça és visible.
+- **A-2** El panettone és sencer i quiet abans que caigui cap cítric.
+- **A-3** Cap trosset cau abans que tots els cítrics hagin aterrat.
+- **A-4** Al progrés 1 totes les peces són al seu lloc (M-5).
+- **A-5** No hi ha targeta ni fons: l'escena comparteix el fons de la pàgina.

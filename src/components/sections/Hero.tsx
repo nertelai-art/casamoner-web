@@ -3,7 +3,8 @@ import Link from 'next/link';
 import { Fragment } from 'react';
 import styles from './Hero.module.css';
 
-const HEADLINE = ['Pa', 'de', 'veritat,', 'fet', 'amb', 'temps.'];
+// El lema de la web actual de casamoner.
+const HEADLINE = ['Experimenta', 'el', 'plaer', 'del', 'nostre', 'pa.'];
 
 export function Hero({ storeCount }: { storeCount: number }) {
   return (

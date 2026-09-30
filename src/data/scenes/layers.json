@@ -1,0 +1,281 @@
+{
+  "cake": {
+    "width": 1333,
+    "height": 2000,
+    "background": "/images/scenes/pastis-fons.webp",
+    "cake": {
+      "src": "/images/scenes/pastis-retall.webp",
+      "x": 267,
+      "y": 631,
+      "w": 810,
+      "h": 661
+    }
+  },
+  "panettone": {
+    "width": 2000,
+    "height": 1333,
+    "panettone": {
+      "src": "/images/scenes/panettone/panettone.webp",
+      "x": 668,
+      "y": 299,
+      "w": 756,
+      "h": 679
+    },
+    "citrus": [
+      {
+        "src": "/images/scenes/panettone/citric-0.webp",
+        "x": 628,
+        "y": 0,
+        "w": 338,
+        "h": 340
+      },
+      {
+        "src": "/images/scenes/panettone/citric-1.webp",
+        "x": 1409,
+        "y": 137,
+        "w": 364,
+        "h": 350
+      },
+      {
+        "src": "/images/scenes/panettone/citric-2.webp",
+        "x": 1655,
+        "y": 84,
+        "w": 345,
+        "h": 362
+      },
+      {
+        "src": "/images/scenes/panettone/citric-3.webp",
+        "x": 230,
+        "y": 279,
+        "w": 340,
+        "h": 209
+      },
+      {
+        "src": "/images/scenes/panettone/citric-4.webp",
+        "x": 32,
+        "y": 447,
+        "w": 476,
+        "h": 501
+      },
+      {
+        "src": "/images/scenes/panettone/citric-5.webp",
+        "x": 1203,
+        "y": 810,
+        "w": 494,
+        "h": 310
+      },
+      {
+        "src": "/images/scenes/panettone/citric-6.webp",
+        "x": 379,
+        "y": 950,
+        "w": 388,
+        "h": 250
+      },
+      {
+        "src": "/images/scenes/panettone/citric-7.webp",
+        "x": 1733,
+        "y": 1011,
+        "w": 267,
+        "h": 322
+      }
+    ],
+    "crumbs": [
+      {
+        "src": "/images/scenes/panettone/tros-0-0.webp",
+        "x": 125,
+        "y": 380,
+        "w": 26,
+        "h": 11
+      },
+      {
+        "src": "/images/scenes/panettone/tros-0-1.webp",
+        "x": 484,
+        "y": 454,
+        "w": 16,
+        "h": 14
+      },
+      {
+        "src": "/images/scenes/panettone/tros-0-2.webp",
+        "x": 500,
+        "y": 380,
+        "w": 237,
+        "h": 239
+      },
+      {
+        "src": "/images/scenes/panettone/tros-0-5.webp",
+        "x": 1304,
+        "y": 380,
+        "w": 196,
+        "h": 228
+      },
+      {
+        "src": "/images/scenes/panettone/tros-0-6.webp",
+        "x": 1500,
+        "y": 399,
+        "w": 250,
+        "h": 220
+      },
+      {
+        "src": "/images/scenes/panettone/tros-0-7.webp",
+        "x": 1750,
+        "y": 391,
+        "w": 250,
+        "h": 228
+      },
+      {
+        "src": "/images/scenes/panettone/tros-1-0.webp",
+        "x": 0,
+        "y": 730,
+        "w": 105,
+        "h": 127
+      },
+      {
+        "src": "/images/scenes/panettone/tros-1-1.webp",
+        "x": 455,
+        "y": 804,
+        "w": 45,
+        "h": 53
+      },
+      {
+        "src": "/images/scenes/panettone/tros-1-2.webp",
+        "x": 500,
+        "y": 618,
+        "w": 207,
+        "h": 239
+      },
+      {
+        "src": "/images/scenes/panettone/tros-1-5.webp",
+        "x": 1379,
+        "y": 629,
+        "w": 121,
+        "h": 199
+      },
+      {
+        "src": "/images/scenes/panettone/tros-1-6.webp",
+        "x": 1500,
+        "y": 618,
+        "w": 250,
+        "h": 239
+      },
+      {
+        "src": "/images/scenes/panettone/tros-1-7.webp",
+        "x": 1750,
+        "y": 618,
+        "w": 250,
+        "h": 239
+      },
+      {
+        "src": "/images/scenes/panettone/tros-2-0.webp",
+        "x": 0,
+        "y": 856,
+        "w": 250,
+        "h": 206
+      },
+      {
+        "src": "/images/scenes/panettone/tros-2-1.webp",
+        "x": 250,
+        "y": 856,
+        "w": 250,
+        "h": 239
+      },
+      {
+        "src": "/images/scenes/panettone/tros-2-2.webp",
+        "x": 500,
+        "y": 856,
+        "w": 250,
+        "h": 184
+      },
+      {
+        "src": "/images/scenes/panettone/tros-2-3.webp",
+        "x": 750,
+        "y": 950,
+        "w": 250,
+        "h": 145
+      },
+      {
+        "src": "/images/scenes/panettone/tros-2-4.webp",
+        "x": 1000,
+        "y": 961,
+        "w": 250,
+        "h": 134
+      },
+      {
+        "src": "/images/scenes/panettone/tros-2-5.webp",
+        "x": 1250,
+        "y": 1074,
+        "w": 108,
+        "h": 21
+      },
+      {
+        "src": "/images/scenes/panettone/tros-2-6.webp",
+        "x": 1542,
+        "y": 856,
+        "w": 208,
+        "h": 239
+      },
+      {
+        "src": "/images/scenes/panettone/tros-2-7.webp",
+        "x": 1750,
+        "y": 856,
+        "w": 250,
+        "h": 223
+      },
+      {
+        "src": "/images/scenes/panettone/tros-3-0.webp",
+        "x": 28,
+        "y": 1196,
+        "w": 222,
+        "h": 106
+      },
+      {
+        "src": "/images/scenes/panettone/tros-3-1.webp",
+        "x": 250,
+        "y": 1094,
+        "w": 250,
+        "h": 239
+      },
+      {
+        "src": "/images/scenes/panettone/tros-3-2.webp",
+        "x": 500,
+        "y": 1121,
+        "w": 250,
+        "h": 212
+      },
+      {
+        "src": "/images/scenes/panettone/tros-3-3.webp",
+        "x": 750,
+        "y": 1094,
+        "w": 250,
+        "h": 239
+      },
+      {
+        "src": "/images/scenes/panettone/tros-3-4.webp",
+        "x": 1000,
+        "y": 1094,
+        "w": 250,
+        "h": 175
+      },
+      {
+        "src": "/images/scenes/panettone/tros-3-5.webp",
+        "x": 1250,
+        "y": 1094,
+        "w": 250,
+        "h": 239
+      },
+      {
+        "src": "/images/scenes/panettone/tros-3-6.webp",
+        "x": 1500,
+        "y": 1094,
+        "w": 250,
+        "h": 217
+      },
+      {
+        "src": "/images/scenes/panettone/tros-3-7.webp",
+        "x": 1750,
+        "y": 1242,
+        "w": 250,
+        "h": 91
+      }
+    ]
+  }
+}

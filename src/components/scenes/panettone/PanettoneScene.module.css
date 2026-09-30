@@ -1,0 +1,34 @@
+/* Sense targeta: les peces es munten directament sobre el fons de la pàgina. */
+.layout {
+  width: min(100% - 2 * var(--gutter), var(--max));
+  display: grid;
+  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.7fr);
+  align-items: center;
+  gap: clamp(1rem, 3vw, 3rem);
+}
+
+.composition {
+  position: relative;
+  width: 100%;
+  max-height: calc(100svh - var(--header-h) - 2rem);
+}
+
+.piece {
+  position: absolute;
+  inset: 0;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+.piece img {
+  position: absolute;
+  height: auto;
+  user-select: none;
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}

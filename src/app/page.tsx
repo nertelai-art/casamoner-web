@@ -1,4 +1,5 @@
 import { JsonLd } from '@/components/JsonLd';
+import { CroissantScene } from '@/components/scenes/croissant/CroissantScene';
 import { Hero, Marquee } from '@/components/sections/Hero';
 import {
   BreadsSection,
@@ -21,6 +22,7 @@ export default function HomePage() {
     <>
       <Hero storeCount={stores.length} />
       <Marquee />
+      <CroissantScene />
       <BreadsSection />
       <CakesSection />
       <SweetsSection />

@@ -4,20 +4,78 @@ export interface Product {
   readonly description?: string;
 }
 
-export const breads = [
+export interface BreadLabel {
+  readonly name: string;
+  readonly label: 'negra' | 'blanca';
+  readonly image: string;
+  readonly imageAlt: string;
+  readonly description: string;
+  readonly breads: readonly { name: string; image: string; ingredients: readonly string[] }[];
+}
+
+// Font: casamoner.com/pans_etiqueta_negra.php i pans_etiqueta_blanca.php (setembre 2026).
+export const breadLabels: readonly BreadLabel[] = [
   {
     name: 'Pa Etiqueta Negra',
-    image: '/images/general/pa-molla.jpg',
+    label: 'negra',
+    image: '/images/pans/kamut.jpg',
+    imageAlt: 'Pa de kamut de casamoner tallat sobre una post de fusta',
     description:
-      'Massa mare, farines ecològiques, aigua purificada i vivificada i sal marina sense refinar. Fermentació lenta.',
+      'Elaborat amb massa mare, farines ecològiques, aigua purificada i vivificada i sal marina sense refinar.',
+    breads: [
+      {
+        name: 'Llonguet',
+        image: '/images/pans/llonguet.jpg',
+        ingredients: ['Farina de blat ecològic', 'Massa mare', 'Llevat ecològic', 'Llet ecològica de la Granja La Selvatana', 'Mantega ecològica', 'Sal marina sense refinar', 'Aigua purificada i vivificada'],
+      },
+      {
+        name: "Flauta d'espelta",
+        image: '/images/pans/flauta-espelta.jpg',
+        ingredients: ["Farina d'espelta ecològica extracció 60%", "Farina d'espelta ecològica molta a la pedra extracció 80%", 'Massa mare', 'Llevat ecològic', 'Sal marina sense refinar', 'Aigua purificada i vivificada'],
+      },
+      {
+        name: 'Pa de kamut',
+        image: '/images/pans/kamut.jpg',
+        ingredients: ['Farina de kamut ecològica', 'Massa mare', 'Sal marina sense refinar', 'Aigua purificada i vivificada'],
+      },
+      {
+        name: 'Pa de fajol',
+        image: '/images/pans/fajol.jpg',
+        ingredients: ['100% farina integral de fajol ecològica', 'Massa mare de fajol', 'Llevat ecològic', 'Sal marina sense refinar', 'Aigua purificada i vivificada'],
+      },
+      {
+        name: 'Pa de blat de moro',
+        image: '/images/pans/blat-de-moro.jpg',
+        ingredients: ['75% farina de blat de moro ecològica', '25% farina de blat ecològica', 'Massa mare', 'Sal marina sense refinar', 'Aigua purificada i vivificada'],
+      },
+    ],
   },
   {
     name: 'Pa Etiqueta Blanca',
-    image: '/images/general/obrador-portada.jpg',
+    label: 'blanca',
+    image: '/images/pans/nostalgia.jpg',
+    imageAlt: 'Forner de casamoner amb una barra de Pa Nostàlgia a les mans',
     description:
-      'Massa mare i llevat París, farines de la terra, aigua purificada i vivificada i sal marina sense refinar.',
+      'Elaborat amb llevat París i massa mare, farines de la terra, sal marina sense refinar i aigua purificada i vivificada.',
+    breads: [
+      {
+        name: 'Pa Nostàlgia',
+        image: '/images/pans/nostalgia.jpg',
+        ingredients: ['Farina de blat', 'Farina de sègol', 'Massa mare de sègol i llevat París', 'Sal marina sense refinar', 'Aigua purificada i vivificada'],
+      },
+      {
+        name: 'Pa de Tramuntana',
+        image: '/images/pans/tramuntana.jpg',
+        ingredients: ["Farina de blat dels Aiguamolls de l'Empordà", 'Massa mare', 'Llevat París', 'Sal marina sense refinar', 'Aigua purificada i vivificada'],
+      },
+      {
+        name: 'Pa de pagès',
+        image: '/images/pans/pages.jpg',
+        ingredients: ['Farina de blat', 'Massa mare', 'Llevat París', 'Sal marina sense refinar', 'Aigua purificada i vivificada', 'Indicació Geogràfica Protegida'],
+      },
+    ],
   },
-] as const satisfies readonly Product[];
+];
 
 export const cakes = [
   { name: 'Formatge i macadàmia', image: '/images/pastissos/formatge-macadamia.jpg' },
@@ -36,11 +94,11 @@ export const cakes = [
 
 export const sweets = [
   { name: 'Magdalenes de kamut o espelta', image: '/images/dolcos/magdalenes.jpg' },
-  { name: 'Croissants de mantega', image: '/images/dolcos/croissants.jpg', description: "De l'obrador a les botigues, cada dia." },
+  { name: 'Croissants', image: '/images/dolcos/croissants.jpg', description: "De l'obrador a les botigues, bolleria fresca cada dia." },
   { name: 'Minixuixos', image: '/images/dolcos/minixuixos.jpg' },
   { name: 'Galetes ecològiques', image: '/images/dolcos/galetes.jpg' },
   { name: 'Cremositats', image: '/images/dolcos/cremositats.jpg' },
-  { name: 'Cassoletes de fruita', image: '/images/general/cassoletes.jpg' },
+  { name: 'Cassoletes', image: '/images/general/cassoletes.jpg' },
 ] as const satisfies readonly Product[];
 
 export const savories = [
@@ -70,7 +128,7 @@ export const faqs: readonly Faq[] = [
   {
     question: 'Quina diferència hi ha entre el pa Etiqueta Negra i l’Etiqueta Blanca?',
     answer:
-      "L'Etiqueta Negra es fa només amb massa mare i farines ecològiques. L'Etiqueta Blanca combina massa mare i llevat París amb farines de la terra. Tots dos porten aigua purificada i vivificada i sal marina sense refinar.",
+      "L'Etiqueta Negra s'elabora amb massa mare i farines ecològiques (llonguet, flauta d'espelta, pa de kamut, de fajol i de blat de moro). L'Etiqueta Blanca, amb llevat París i massa mare i farines de la terra (Pa Nostàlgia, Pa de Tramuntana i pa de pagès). Tots porten aigua purificada i vivificada i sal marina sense refinar.",
   },
   {
     question: 'Puc encarregar un pastís personalitzat?',

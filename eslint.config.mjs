@@ -14,6 +14,22 @@ export default defineConfig([
     },
   },
   {
+    // three.js (~250 kB) només als canvas carregats amb import() diferit.
+    files: ['src/**/*.{ts,tsx}'],
+    ignores: ['src/components/three/canvas-kit.tsx', 'src/components/scenes/**/*Canvas.tsx', 'src/components/map/leaflet/**'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [{ name: 'leaflet', message: 'Usa MapView (src/components/map).' }],
+          patterns: [
+            { regex: '^(three|@react-three/[^/]+)(/.*)?$', message: 'three.js només dins dels *Canvas.tsx (càrrega diferida).' },
+          ],
+        },
+      ],
+    },
+  },
+  {
     // El domini i la lògica pura no depenen del framework (spec 000).
     files: ['src/domain/**', 'src/lib/motion/**', 'src/lib/scenes/**', 'src/lib/seo/**'],
     rules: {
