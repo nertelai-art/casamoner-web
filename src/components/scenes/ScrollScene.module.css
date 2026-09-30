@@ -23,3 +23,13 @@
   min-height: 70svh;
   padding-block: 4rem;
 }
+
+/* M-7: escena acabada; el recorregut es plega i l'escenari deixa d'enganxar-se. */
+.track[data-done='true'] {
+  height: auto;
+}
+
+.track[data-done='true'] .stage {
+  position: relative;
+  top: 0;
+}

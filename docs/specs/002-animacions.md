@@ -26,7 +26,10 @@
 - **M-4** Amb `prefers-reduced-motion` l'escena mostra el fotograma final, sense
   escenari enganxat.
 - **M-5** Al progrés 1, cada peça és al seu lloc final.
-- **M-6** Sense WebGL, les escenes 3D mostren una foto real equivalent.
+- **M-7** Cada escena es reprodueix **una sola vegada per visita**: quan el
+  progrés arriba a 1 queda acabada (ja no es rebobina en tornar amunt) i el seu
+  recorregut de scroll es plega a l'alçada de l'escenari, compensant la
+  posició de la pàgina perquè no hi hagi cap salt visual.
 
 ## Escena 1 · Del llevat a la crosta (Pans) — fotos reals
 

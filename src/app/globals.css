@@ -50,6 +50,9 @@
 }
 
 html {
+  /* Sense «scroll anchoring»: quan una escena es plega (M-7), la compensa el
+     motor, igual a tots els navegadors (Safari no en té). */
+  overflow-anchor: none;
   scroll-behavior: smooth;
   scroll-padding-top: var(--header-h);
   -webkit-text-size-adjust: 100%;
