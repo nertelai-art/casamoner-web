@@ -1,0 +1,128 @@
+/* L'escenari és el forn: fosc, amb una resplendor que puja i baixa amb la cocció. */
+.oven {
+  --glow: 0;
+  background:
+    radial-gradient(ellipse 60% 55% at 68% 58%, rgb(255 120 30 / calc(0.06 + var(--glow) * 0.34)), transparent 70%),
+    #140c07;
+  color: #f4ebdd;
+}
+
+.layout {
+  width: min(100% - 2 * var(--gutter), var(--max));
+  height: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 4rem);
+}
+
+.visual {
+  position: relative;
+  justify-self: center;
+  height: min(78svh, 120vw);
+  aspect-ratio: 4 / 5;
+  max-width: 100%;
+}
+
+.frame {
+  position: absolute;
+  inset: 0;
+  border-radius: calc(var(--radius) * 1.4);
+  overflow: hidden;
+  background: #0b0604;
+  box-shadow: 0 30px 80px -30px rgb(0 0 0 / 0.9);
+  will-change: clip-path;
+}
+
+.photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  will-change: transform;
+}
+
+.ovenLayer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  will-change: clip-path;
+}
+
+.glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: var(--glow);
+  background:
+    radial-gradient(ellipse at 50% 110%, rgb(255 110 20 / 0.7), transparent 60%),
+    radial-gradient(ellipse at 50% -10%, rgb(255 150 60 / 0.45), transparent 55%);
+  mix-blend-mode: screen;
+}
+
+/* Onada de calor: franges suaus que pugen mentre el forn és calent. */
+.haze {
+  position: absolute;
+  inset: -20% 0 0;
+  pointer-events: none;
+  opacity: calc(var(--glow) * 0.5);
+  background: repeating-linear-gradient(
+    to bottom,
+    rgb(255 220 180 / 0) 0 22px,
+    rgb(255 220 180 / 0.16) 30px,
+    rgb(255 220 180 / 0) 38px 60px
+  );
+  filter: blur(6px);
+  mix-blend-mode: soft-light;
+  animation: haze 2.4s linear infinite;
+}
+
+.loaf {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  width: 72%;
+  aspect-ratio: 362 / 378;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+.loaf img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.loafShadow img {
+  filter: brightness(0) blur(12px);
+}
+
+.loaf .steam {
+  position: absolute;
+  pointer-events: none;
+  left: 5%;
+  width: 90%;
+  bottom: 45%;
+  height: 120%;
+}
+
+@keyframes haze {
+  to {
+    transform: translateY(60px);
+  }
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(0, 1fr);
+    align-content: start;
+    gap: 1rem;
+    padding-top: 1rem;
+  }
+  .visual {
+    height: min(52svh, 110vw);
+  }
+}

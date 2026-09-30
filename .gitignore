@@ -10,3 +10,6 @@ next-env.d.ts
 # Fotos originals del client (40 MB). Les optimitzades són a public/images.
 assets-src/
 .DS_Store
+
+# Configuració personal de Claude Code (permisos locals)
+.claude/settings.local.json

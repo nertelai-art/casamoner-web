@@ -1,0 +1,68 @@
+{
+  "plate": {
+    "src": "/images/scenes/cafeteria/plat.webp",
+    "w": 1408,
+    "h": 1408
+  },
+  "cup": {
+    "src": "/images/scenes/cafeteria/tassa.webp",
+    "w": 760,
+    "h": 760,
+    "interior": {
+      "cx": 0.48947368421052634,
+      "cy": 0.49473684210526314,
+      "r": 0.3394736842105263
+    }
+  },
+  "coffee": {
+    "src": "/images/scenes/cafeteria/cafe.webp",
+    "w": 844,
+    "h": 844
+  },
+  "croissant": {
+    "src": "/images/scenes/cafeteria/croissant.webp",
+    "w": 803,
+    "h": 729
+  },
+  "mossegat": {
+    "src": "/images/scenes/cafeteria/croissant-mossegat.webp",
+    "w": 803,
+    "h": 729
+  },
+  "tros": {
+    "src": "/images/scenes/cafeteria/croissant-tros.webp",
+    "w": 803,
+    "h": 729
+  },
+  "bite": {
+    "cx": 0.9962640099626401,
+    "cy": 0.41975308641975306
+  },
+  "crumbs": [
+    {
+      "src": "/images/scenes/cafeteria/molla-0.webp",
+      "w": 142,
+      "h": 111
+    },
+    {
+      "src": "/images/scenes/cafeteria/molla-1.webp",
+      "w": 96,
+      "h": 123
+    },
+    {
+      "src": "/images/scenes/cafeteria/molla-2.webp",
+      "w": 124,
+      "h": 109
+    },
+    {
+      "src": "/images/scenes/cafeteria/molla-3.webp",
+      "w": 222,
+      "h": 127
+    },
+    {
+      "src": "/images/scenes/cafeteria/molla-4.webp",
+      "w": 76,
+      "h": 64
+    }
+  ]
+}

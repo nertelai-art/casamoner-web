@@ -28,22 +28,24 @@
 - **M-5** Al progrés 1, cada peça és al seu lloc final.
 - **M-6** Sense WebGL, les escenes 3D mostren una foto real equivalent.
 
-## Escena 1 · El pa puja i es cou (Pans) — 3D
+## Escena 1 · Del llevat a la crosta (Pans) — fotos reals
 
-Una barra de pa modelada per codi (massa amb tres greixes) sobre una pala de fusta.
+> **v3 (30/09/2026):** el client vol que es vegi real. Fora el model 3D. Tres
+> fotos del seu obrador en seqüència, amb transicions; cap imatge s'estira
+> (només escales uniformes).
 
-1. Fermentació: la massa, pàl·lida i baixa, s'infla.
-2. Forn: resplendor càlida; la crosta passa de color massa a daurat torrat i
-   les greixes s'obren.
-3. Fora del forn: vapor.
+1. **Pastar**: les mans pastant la massa (`obrador-portada`), amb un zoom lent
+   i pols de farina.
+2. **Al forn**: una porta de forn circular s'obre cap a les barres a les
+   safates (`obrador-safates`); resplendor càlida i onada de calor.
+3. **Acabat de sortir**: el Pa de pagès retallat (`pa-pages`) es posa sobre el
+   fons fosc, amb ombra i vapor.
 
-- **P-1** Al progrés 0 l'alçada relativa és ≤ 0,55 i el daurat és 0.
-- **P-2** L'alçada creix de manera monòtona durant la fermentació i arriba a 1.
-- **P-3** El daurat només comença quan la fermentació ha acabat.
-- **P-4** Les greixes s'obren a mesura que es dauren.
-- **P-5** Al progrés 1: alçada 1, daurat 1, sense resplendor.
-
-No es mostren xifres (hores, graus) que el client no ha donat.
+- **P-1** Al progrés 0 es veu la foto de pastar; el forn i el pa, no.
+- **P-2** Les fases van en ordre: la porta del forn s'acaba d'obrir abans del
+  pic de calor, i el pa no apareix fins que el forn s'ha tancat.
+- **P-3** Tots els zooms són escalars (mai s'estira una foto).
+- **P-4** Al progrés 1: el pa en repòs, vapor 1 i sense resplendor.
 
 ## Escena 2 · El pastís arriba caminant (Pastissos)
 

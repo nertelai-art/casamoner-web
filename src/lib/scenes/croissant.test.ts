@@ -38,4 +38,18 @@ describe('croissant & coffee scene (3D)', () => {
       if (f.crumbs > 0) expect(f.bite).toBe(1);
     }
   });
+
+  it('K-7 the croissant is in the air while it drops and rests on the plate afterwards', () => {
+    const [c0, c1] = CROISSANT_PHASES.croissant;
+    expect(croissantFrame(c0 + 0.001).height).toBeGreaterThan(0.9);
+    expect(croissantFrame(c1).height).toBe(0);
+    expect(croissantFrame(1).height).toBe(0);
+    for (const p of samples) expect(croissantFrame(p).height).toBeGreaterThanOrEqual(0);
+  });
+
+  it('the bitten-off piece lifts away and is gone by the end', () => {
+    expect(croissantFrame(CROISSANT_PHASES.bite[0] - 0.01).piece).toBe(0);
+    expect(croissantFrame(CROISSANT_PHASES.bite[1] + 0.001).piece).toBeGreaterThan(0);
+    expect(croissantFrame(1).piece).toBe(1);
+  });
 });

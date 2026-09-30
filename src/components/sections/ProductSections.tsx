@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { breadLabels, cakes, savories, sweets } from '@/data/catalog';
 import { site } from '@/data/site';
-import { BreadScene } from '@/components/scenes/bread/BreadScene';
+import { BakeryScene } from '@/components/scenes/bakery/BakeryScene';
 import { CakeWalkScene } from '@/components/scenes/cake-walk/CakeWalkScene';
 import { PanettoneScene } from '@/components/scenes/panettone/PanettoneScene';
 import styles from './sections.module.css';
@@ -27,7 +27,7 @@ export function BreadsSection() {
         title="Pans"
         lead="Farines ecològiques lliures de pesticides i glifosat, massa mare, aigua purificada i vivificada i sal marina sense refinar."
       />
-      <BreadScene />
+      <BakeryScene />
       <div className={`container ${styles.labels}`}>
         {breadLabels.map((label) => (
           <article key={label.name} className={`${styles.label} reveal`} data-variant={label.label}>
