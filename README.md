@@ -9,8 +9,10 @@ de Girona. Next.js 16 + React 19 + TypeScript, desplegada a Vercel.
   preguntes freqüents.
 - **Quatre escenes lligades al scroll** ([spec 002](docs/specs/002-animacions.md),
   [spec 005](docs/specs/005-croissant-cafe.md)):
-  - *Cafeteria* (3D, three.js): un croissant cau sobre el plat, apareix la tassa,
-    s'omple de cafè, en surt vapor i el croissant queda mossegat.
+  - *Cafeteria* (fotos reals, vista zenital): un croissant cau sobre el plat,
+    apareix la tassa, s'omple de cafè, en surt vapor i el croissant queda
+    mossegat. Fotos d'Unsplash; el croissant és provisional
+    ([crèdits](docs/CREDITS.md)).
   - *Pans* (3D): una barra de massa mare s'infla, es cou, es daura i fumeja.
   - *Pastissos*: el pastís de formatge entra caminant a trompicons dins la seva
     pròpia foto, de la qual s'ha esborrat.
@@ -46,6 +48,7 @@ pnpm check
 | `pnpm build` | Build de producció (Turbopack; és la que fa Vercel). |
 | `pnpm build:local` | Build de producció amb Webpack, per a aquesta màquina. |
 | `pnpm images` | Redimensiona les fotos originals d'`assets-src/` a `public/images/`. |
+| `pnpm breakfast` | Genera les capes de l'escena de la cafeteria (`src/data/scenes/breakfast.json`). |
 | `pnpm scenes` | Genera les capes de les escenes (pastís sense fons, retalls del panettone) a `public/images/scenes/` i `src/data/scenes/layers.json`. |
 
 El hook de **pre-push** (`.githooks/pre-push`, s'activa sol amb `pnpm install`)

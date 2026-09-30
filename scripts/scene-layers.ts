@@ -5,56 +5,17 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import sharp from 'sharp';
 import { keyWhite } from '../src/lib/image/chroma-key.ts';
+import { alphaBox, clampBox, mask, rgb, writeRgba, type Box } from './lib/raster.ts';
 
 const OUT = 'public/images/scenes';
 /** Escala de sortida: a pantalla les capes no passen de ~1300 px d'ample. */
 const SCALE = 0.65;
-type Box = { x: number; y: number; w: number; h: number };
 type Layer = Box & { src: string };
 
-/** Rasteritza un SVG a una màscara d'un canal (0–255), amb difuminat opcional. */
-async function mask(width: number, height: number, body: string, blur = 0): Promise<Uint8Array> {
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}"><rect width="100%" height="100%" fill="#000"/><g fill="#fff">${body}</g></svg>`;
-  let img = sharp(Buffer.from(svg)).greyscale();
-  if (blur > 0) img = img.blur(blur);
-  const { data } = await img.raw().toBuffer({ resolveWithObject: true });
-  return new Uint8Array(data.buffer, data.byteOffset, data.length);
-}
-
-async function rgb(path: string) {
-  const { data, info } = await sharp(path).removeAlpha().raw().toBuffer({ resolveWithObject: true });
-  return { data, width: info.width, height: info.height };
-}
-
-/** Escriu la regió `box` d'una imatge RGBA com a WebP amb transparència. */
-async function writeRgba(rgba: Buffer, width: number, height: number, box: Box, file: string): Promise<Layer> {
-  await sharp(rgba, { raw: { width, height, channels: 4 } })
-    .extract({ left: box.x, top: box.y, width: box.w, height: box.h })
-    .resize({ width: Math.max(1, Math.round(box.w * SCALE)) })
-    .webp({ quality: 76, alphaQuality: 70, effort: 6, smartSubsample: true })
-    .toFile(`${OUT}/${file}`);
+async function write(rgba: Uint8Array, width: number, height: number, box: Box, file: string): Promise<Layer> {
+  await writeRgba(rgba, width, height, box, `${OUT}/${file}`, SCALE);
   return { src: `/images/scenes/${file}`, ...box };
 }
-
-/** Caixa mínima amb alfa > 0, dins de `limit`. */
-function alphaBox(rgba: Buffer, width: number, limit: Box): Box | null {
-  let x0 = Infinity, y0 = Infinity, x1 = -1, y1 = -1;
-  for (let y = limit.y; y < limit.y + limit.h; y++)
-    for (let x = limit.x; x < limit.x + limit.w; x++)
-      if (rgba[(y * width + x) * 4 + 3]! > 8) {
-        if (x < x0) x0 = x;
-        if (x > x1) x1 = x;
-        if (y < y0) y0 = y;
-        if (y > y1) y1 = y;
-      }
-  return x1 < 0 ? null : { x: x0, y: y0, w: x1 - x0 + 1, h: y1 - y0 + 1 };
-}
-
-const clampBox = (b: Box, w: number, h: number): Box => {
-  const x = Math.max(0, Math.floor(b.x));
-  const y = Math.max(0, Math.floor(b.y));
-  return { x, y, w: Math.min(w, Math.ceil(b.x + b.w)) - x, h: Math.min(h, Math.ceil(b.y + b.h)) - y };
-};
 
 // ── Pastís ─────────────────────────────────────────────────────────────────
 async function cake() {
@@ -131,7 +92,7 @@ async function cake() {
     rgba[i * 4 + 3] = cut[i]!;
   }
   const box = alphaBox(rgba, width, { x: 0, y: 0, w: width, h: height })!;
-  const layer = await writeRgba(rgba, width, height, box, 'pastis-retall.webp');
+  const layer = await write(rgba, width, height, box, 'pastis-retall.webp');
   return { width, height, background: '/images/scenes/pastis-fons.webp', cake: layer };
 }
 
@@ -178,7 +139,7 @@ async function panettone() {
         rgba[i * 4 + 3] = Math.round(a * 255);
       }
     const box = alphaBox(rgba, width, limit);
-    return box ? writeRgba(rgba, width, height, box, file) : null;
+    return box ? write(rgba, width, height, box, file) : null;
   };
 
   await mkdir(`${OUT}/panettone`, { recursive: true });

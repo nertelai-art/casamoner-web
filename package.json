@@ -18,6 +18,7 @@
     "test:watch": "vitest",
     "images": "node scripts/prepare-images.mjs",
     "scenes": "node scripts/scene-layers.ts",
+    "breakfast": "node scripts/breakfast-layers.ts",
     "check": "pnpm typecheck && pnpm lint && pnpm test",
     "prepare": "git config core.hooksPath .githooks"
   },

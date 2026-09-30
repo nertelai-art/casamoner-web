@@ -1,0 +1,83 @@
+/* Vista des de dalt, sobre el fons de la pàgina. Res de targeta. */
+.layout {
+  width: min(100% - 2 * var(--gutter), var(--max));
+  display: grid;
+  grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.6fr);
+  align-items: center;
+  gap: clamp(1rem, 3vw, 3rem);
+}
+
+.composition {
+  position: relative;
+  width: 100%;
+  max-height: calc(100svh - var(--header-h) - 2rem);
+}
+
+.piece {
+  position: absolute;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+.piece img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+}
+
+/* Silueta com a ombra: la mateixa foto, negra i difuminada. */
+.silhouette img {
+  filter: brightness(0) blur(7px);
+}
+
+/* Ombra suau de peces rodones (plat, platet). */
+.roundShadow {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(60 40 25 / 0.28), rgb(60 40 25 / 0.12) 70%, transparent);
+  transform: translate(3%, 5%) scale(1.02);
+  filter: blur(6px);
+  pointer-events: none;
+}
+
+.piece .coffee {
+  right: auto;
+  bottom: auto;
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transform-origin: 50% 50%;
+}
+
+.steam {
+  position: absolute;
+  left: 18%;
+  width: 64%;
+  bottom: 52%;
+  height: 140%;
+  pointer-events: none;
+}
+
+.crumb {
+  position: absolute;
+  height: auto;
+  will-change: transform, opacity;
+  filter: drop-shadow(1px 2px 1px rgb(60 40 25 / 0.35));
+}
+
+@media (prefers-color-scheme: dark) {
+  .roundShadow {
+    background: radial-gradient(closest-side, rgb(0 0 0 / 0.55), rgb(0 0 0 / 0.2) 70%, transparent);
+  }
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
