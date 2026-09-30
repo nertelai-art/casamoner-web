@@ -1,0 +1,19 @@
+{
+  "knead": {
+    "src": "/images/scenes/forn/pastar.webp",
+    "w": 1181,
+    "h": 837,
+    "focus": "51% 57%"
+  },
+  "oven": {
+    "src": "/images/scenes/forn/forn.webp",
+    "w": 860,
+    "h": 1290,
+    "focus": "50% 45%"
+  },
+  "loaf": {
+    "src": "/images/scenes/forn/pa-pages.webp",
+    "w": 362,
+    "h": 378
+  }
+}

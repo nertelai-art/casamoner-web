@@ -7,7 +7,7 @@ import { clamp, lerp } from '@/lib/motion/timeline';
 import { LayerImage } from '../LayerImage';
 import { ScrollScene } from '../ScrollScene';
 import { SceneSteps, type SceneStepsHandle } from '../SceneSteps';
-import { Steam } from './Steam';
+import { Steam } from '../Steam';
 import styles from './CafeteriaScene.module.css';
 
 /** Proporció de la composició (amplada / alçada). */

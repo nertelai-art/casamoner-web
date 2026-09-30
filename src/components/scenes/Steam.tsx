@@ -15,8 +15,8 @@ interface Puff {
 }
 
 /**
- * Vapor sobre la tassa: volves suaus que pugen ondulant. Només s'anima mentre
- * hi ha vapor i el canvas és a la vista; amb moviment reduït, un sol fotograma.
+ * Vapor: volves suaus que pugen ondulant. El bucle només corre mentre el canvas
+ * és a la vista, i només pinta si hi ha vapor; amb moviment reduït, un sol fotograma.
  */
 export function Steam({ level, className }: { level: RefObject<number>; className?: string }) {
   const canvas = useRef<HTMLCanvasElement>(null);
@@ -47,6 +47,9 @@ export function Steam({ level, className }: { level: RefObject<number>; classNam
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, w, h);
       const amount = level.current ?? 0;
+      // Mentre és a la vista seguim mirant el nivell: l'escena el pot canviar
+      // en un rAF que s'executa després d'aquest.
+      if (visible && !reduced) raf = requestAnimationFrame(draw);
       if (amount <= 0) return;
       const t = reduced ? 1.2 : (now - start) / 1000;
       for (const p of puffs) {
@@ -69,7 +72,6 @@ export function Steam({ level, className }: { level: RefObject<number>; classNam
         ctx.fillStyle = body;
         ctx.fillRect(x - r, y - r, r * 2, r * 2);
       }
-      if (visible && !reduced) raf = requestAnimationFrame(draw);
     };
 
     const kick = () => {
