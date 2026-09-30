@@ -1,0 +1,311 @@
+.section {
+  padding-top: clamp(4rem, 10vw, 8rem);
+}
+
+.header {
+  display: grid;
+  gap: 0.8rem;
+  margin-bottom: clamp(1rem, 3vw, 2.5rem);
+}
+
+/* Pans */
+.breads {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin-top: clamp(2rem, 5vw, 4rem);
+}
+
+.bread {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  border-radius: calc(var(--radius) * 1.3);
+  overflow: hidden;
+  background: var(--card);
+  border: 1px solid var(--line);
+}
+
+.bread[data-variant='dark'] {
+  background: #1c140f;
+  color: #f4ebdd;
+  border-color: transparent;
+}
+
+.breadImage {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+
+.breadImage img {
+  object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.bread:hover .breadImage img {
+  transform: scale(1.05);
+}
+
+.breadBody {
+  padding: 1.5rem 1.6rem 1.8rem;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.breadBody h3 {
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+}
+
+.label {
+  justify-self: start;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+}
+
+/* Pastissos */
+.gallery {
+  list-style: none;
+  margin: clamp(2rem, 5vw, 4rem) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.2rem;
+}
+
+.gallery figure {
+  margin: 0;
+}
+
+.galleryImage {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--paper-2);
+}
+
+.galleryImage img {
+  object-fit: cover;
+  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.7s;
+}
+
+.gallery li:hover .galleryImage img {
+  transform: scale(1.07) rotate(-1deg);
+}
+
+.gallery figcaption,
+.carousel figcaption {
+  margin-top: 0.6rem;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+}
+
+/* Dolços */
+.carouselWrap {
+  margin-top: clamp(2rem, 5vw, 4rem);
+}
+
+.carousel {
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem max(var(--gutter), (100% - var(--max)) / 2) 1rem;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: min(78vw, 380px);
+  gap: 1.2rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: max(var(--gutter), (100% - var(--max)) / 2);
+  scrollbar-width: thin;
+}
+
+.carousel li {
+  scroll-snap-align: start;
+}
+
+.carousel figure {
+  margin: 0;
+}
+
+.carouselImage {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.carouselImage img {
+  object-fit: cover;
+  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.carousel li:hover .carouselImage img {
+  transform: scale(1.06);
+}
+
+/* Salats */
+.savory {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.savoryImage {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.savoryImage img {
+  object-fit: cover;
+  transition: transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.savory li:hover .savoryImage img {
+  transform: scale(1.1) rotate(8deg);
+}
+
+.savory p {
+  margin-top: 0.7rem;
+  text-align: center;
+  font-size: 0.95rem;
+  line-height: 1.3;
+}
+
+/* Càtering */
+.cateringGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: clamp(1.5rem, 5vw, 5rem);
+  align-items: center;
+}
+
+.cateringImage {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: calc(var(--radius) * 1.4);
+  overflow: hidden;
+}
+
+.cateringImage img {
+  object-fit: cover;
+}
+
+.cateringBody {
+  display: grid;
+  gap: 1rem;
+}
+
+.cateringActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 0.5rem;
+}
+
+/* Obrador */
+.workshop {
+  position: relative;
+  min-height: 80svh;
+  display: grid;
+  align-items: end;
+  color: #fbf6ee;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.workshopImage {
+  object-fit: cover;
+  z-index: -2;
+}
+
+.workshop::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to top, rgb(20 12 7 / 0.85), transparent 65%);
+}
+
+.workshopBody {
+  padding-bottom: clamp(2.5rem, 8vw, 5rem);
+  display: grid;
+  gap: 0.8rem;
+}
+
+.workshopBody h2 {
+  max-width: 14ch;
+}
+
+.workshopBody :global(.eyebrow) {
+  color: #e9b04a;
+}
+
+.values {
+  list-style: none;
+  padding: 0;
+  margin-top: clamp(2rem, 5vw, 4rem);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 2rem;
+}
+
+.values li {
+  border-top: 2px solid var(--crust);
+  padding-top: 1rem;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.values h3 {
+  font-size: 1.5rem;
+}
+
+.values p {
+  color: var(--ink-soft);
+}
+
+@media (max-width: 1000px) {
+  .gallery {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .savory {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .values {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 800px) {
+  .breads,
+  .cateringGrid {
+    grid-template-columns: 1fr;
+  }
+  .cateringImage {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+@media (max-width: 600px) {
+  .gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.8rem;
+  }
+  .savory {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .values {
+    grid-template-columns: 1fr;
+  }
+}

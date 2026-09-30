@@ -1,0 +1,12 @@
+node_modules/
+.next/
+out/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+.env*
+!.env.example
+.vercel
+# Fotos originals del client (40 MB). Les optimitzades són a public/images.
+assets-src/
+.DS_Store

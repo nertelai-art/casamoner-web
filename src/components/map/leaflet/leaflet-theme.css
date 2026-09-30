@@ -1,0 +1,62 @@
+.leaflet-container {
+  font-family: var(--font-sans);
+  background: var(--paper-2);
+}
+
+.cm-pin span {
+  display: block;
+  width: 30px;
+  height: 30px;
+  margin: 2px;
+  border-radius: 50% 50% 50% 0;
+  background: var(--crust, #a4471b);
+  border: 3px solid #fffaf2;
+  transform: rotate(-45deg);
+  box-shadow: 0 6px 14px -4px rgb(0 0 0 / 0.5);
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.cm-pin:hover span,
+.cm-pin:focus-visible span {
+  transform: rotate(-45deg) scale(1.15);
+}
+
+.cm-pin--selected span {
+  background: #23180f;
+  transform: rotate(-45deg) scale(1.25);
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 14px;
+  background: var(--card, #fff);
+  color: var(--ink, #23180f);
+  box-shadow: 0 12px 30px -10px rgb(0 0 0 / 0.4);
+}
+
+.leaflet-popup-tip {
+  background: var(--card, #fff);
+}
+
+.cm-popup {
+  display: grid;
+  gap: 0.2rem;
+  font-size: 0.92rem;
+}
+
+.cm-popup strong {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 500;
+}
+
+.cm-popup a {
+  margin-top: 0.4rem;
+  font-weight: 600;
+  color: var(--crust, #a4471b) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  .leaflet-tile-pane {
+    filter: invert(1) hue-rotate(180deg) brightness(0.85) contrast(0.9) saturate(0.6);
+  }
+}

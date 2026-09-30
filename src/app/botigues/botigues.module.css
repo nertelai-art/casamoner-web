@@ -1,0 +1,42 @@
+.header {
+  display: grid;
+  gap: 0.8rem;
+  padding-block: clamp(2.5rem, 6vw, 5rem) 2rem;
+}
+
+.index {
+  margin-top: 4rem;
+}
+
+.index h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.columns {
+  columns: 4 220px;
+  column-gap: 2rem;
+}
+
+.columns > div {
+  break-inside: avoid;
+  margin-bottom: 1.5rem;
+}
+
+.columns h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.4rem;
+}
+
+.columns ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.columns a {
+  display: inline-block;
+  padding-block: 0.15rem;
+  color: var(--ink-soft);
+  text-underline-offset: 3px;
+}

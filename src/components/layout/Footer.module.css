@@ -1,0 +1,80 @@
+.footer {
+  margin-top: 6rem;
+  background: #1a130e;
+  color: #eadfcf;
+  padding-block: 4rem 2rem;
+  font-size: 0.95rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1.6fr 0.8fr;
+  gap: 2.5rem;
+}
+
+.logo {
+  font-size: 2.2rem;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+.brandCol p {
+  max-width: 34ch;
+  color: #bfae98;
+}
+
+.heading {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #e9b04a;
+  margin: 0 0 0.8rem;
+}
+
+.heading:not(:first-child) {
+  margin-top: 1.8rem;
+}
+
+.footer ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.footer a {
+  text-decoration: none;
+  color: #eadfcf;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.stores {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 1rem;
+}
+
+.bottom {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgb(234 223 207 / 0.15);
+  color: #8f7f6c;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

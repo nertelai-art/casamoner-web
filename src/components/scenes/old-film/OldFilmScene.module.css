@@ -1,0 +1,211 @@
+.stage {
+  --grain: 0.1;
+  --sepia: 0;
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(ellipse at 50% 45%, #2b2119 0%, #120d09 70%),
+    #120d09;
+  color: #f1e6d2;
+  overflow: hidden;
+}
+
+/* Fotograma de pel·lícula gran, amb perforacions als dos costats. */
+.card {
+  position: relative;
+  z-index: 2;
+  height: min(78svh, 150vw);
+  aspect-ratio: 1333 / 2000;
+  will-change: transform, opacity;
+}
+
+.filmStrip {
+  position: absolute;
+  inset: 0 -12%;
+  padding: 5% 12%;
+  background: #050403;
+  border-radius: 6px;
+  box-shadow: 0 30px 80px -20px rgb(0 0 0 / 0.8);
+}
+
+.filmStrip::before,
+.filmStrip::after {
+  content: '';
+  position: absolute;
+  top: 2%;
+  bottom: 2%;
+  width: 6%;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 14px,
+    #e9dcc5 14px 30px,
+    transparent 30px 44px
+  );
+  border-radius: 3px;
+  opacity: 0.85;
+}
+
+.filmStrip::before {
+  left: 3%;
+}
+
+.filmStrip::after {
+  right: 3%;
+}
+
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+/* Cua de pel·lícula: cercle amb escombrada i número. */
+.leader {
+  --sweep: 0deg;
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  background:
+    conic-gradient(from 0deg, rgb(241 230 210 / 0.22) 0deg var(--sweep), transparent var(--sweep)),
+    #1b1510;
+  font-family: var(--font-display);
+  font-size: min(40vw, 38svh);
+  line-height: 1;
+  pointer-events: none;
+}
+
+.leader::before,
+.leader::after {
+  content: '';
+  position: absolute;
+  border: 2px solid rgb(241 230 210 / 0.5);
+  border-radius: 50%;
+  width: min(70vw, 64svh);
+  aspect-ratio: 1;
+}
+
+.leader::after {
+  width: min(56vw, 52svh);
+}
+
+.title {
+  position: absolute;
+  z-index: 4;
+  left: var(--gutter);
+  bottom: clamp(1.5rem, 8svh, 5rem);
+  max-width: 24rem;
+  display: grid;
+  gap: 0.4rem;
+  padding: 1.2rem 1.4rem;
+  background: rgb(18 13 9 / 0.72);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgb(241 230 210 / 0.2);
+  border-radius: 12px;
+}
+
+.kicker {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #e9b04a;
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.6vw, 2.8rem);
+  line-height: 1.05;
+}
+
+.note {
+  color: #cdbba5;
+}
+
+/* Gra, ratllades i vinyeta: cinema antic. */
+.grain {
+  position: absolute;
+  inset: -50%;
+  z-index: 5;
+  pointer-events: none;
+  opacity: var(--grain);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 0.95 0 0 0 0 0.85 0 0 0 0.9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+  animation: grain 0.5s steps(5) infinite;
+}
+
+.scratches {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  opacity: calc(var(--sepia) * 0.7);
+  background:
+    linear-gradient(90deg, transparent 0 18%, rgb(255 250 235 / 0.35) 18% 18.15%, transparent 18.15%),
+    linear-gradient(90deg, transparent 0 71%, rgb(0 0 0 / 0.5) 71% 71.2%, transparent 71.2%);
+  animation: scratch 0.9s steps(6) infinite;
+}
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 45%, rgb(0 0 0 / 0.75) 100%);
+  opacity: calc(0.45 + var(--sepia) * 0.55);
+  animation: flicker 0.16s steps(2) infinite;
+}
+
+@keyframes grain {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-6%, 4%); }
+  40% { transform: translate(5%, -7%); }
+  60% { transform: translate(-3%, 8%); }
+  80% { transform: translate(7%, 2%); }
+}
+
+@keyframes scratch {
+  0% { transform: translateX(0); }
+  33% { transform: translateX(-9vw); }
+  66% { transform: translateX(14vw); }
+}
+
+@keyframes flicker {
+  50% { filter: brightness(1.18); }
+}
+
+@media (max-width: 700px) {
+  .card {
+    height: min(62svh, 120vw);
+  }
+  .title {
+    right: var(--gutter);
+    bottom: 1rem;
+    padding: 0.9rem 1rem;
+  }
+}
+
+/* Escriptori: títol a l'esquerra i fotograma a la dreta, sense solapar-se. */
+@media (min-width: 901px) {
+  .stage {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    padding-inline: max(var(--gutter), (100% - var(--max)) / 2);
+    column-gap: 3rem;
+  }
+  .title {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
+  }
+  .card {
+    grid-column: 2;
+    grid-row: 1;
+  }
+}

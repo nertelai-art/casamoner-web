@@ -1,0 +1,25 @@
+.track {
+  position: relative;
+  height: var(--scene-length);
+  margin: 0;
+}
+
+.stage {
+  position: sticky;
+  top: var(--header-h);
+  height: calc(100svh - var(--header-h));
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+
+.track[data-reduced='true'] {
+  height: auto;
+}
+
+.track[data-reduced='true'] .stage {
+  position: relative;
+  height: auto;
+  min-height: 70svh;
+  padding-block: 4rem;
+}

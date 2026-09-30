@@ -1,0 +1,17 @@
+.map {
+  position: relative;
+  min-height: 360px;
+  border-radius: calc(var(--radius) * 1.2);
+  overflow: hidden;
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+}
+
+.placeholder {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}

@@ -1,0 +1,66 @@
+.section {
+  padding-top: clamp(4rem, 10vw, 8rem);
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.faq {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(1.5rem, 5vw, 5rem);
+}
+
+.faqList {
+  border-top: 1px solid var(--line);
+}
+
+.item {
+  border-bottom: 1px solid var(--line);
+}
+
+.item summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.2rem 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+}
+
+.item summary::-webkit-details-marker {
+  display: none;
+}
+
+.item summary::after {
+  content: '+';
+  font-family: var(--font-sans);
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--crust);
+  transition: transform 0.3s;
+}
+
+.item[open] summary::after {
+  transform: rotate(45deg);
+}
+
+.item p {
+  padding-bottom: 1.3rem;
+  color: var(--ink-soft);
+  max-width: 62ch;
+}
+
+@media (max-width: 800px) {
+  .faq {
+    grid-template-columns: 1fr;
+  }
+}
