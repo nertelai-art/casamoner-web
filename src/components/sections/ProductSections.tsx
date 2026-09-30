@@ -1,9 +1,9 @@
 import Image from 'next/image';
-import { breads, cakes, savories, sweets } from '@/data/catalog';
+import { breadLabels, cakes, savories, sweets } from '@/data/catalog';
 import { site } from '@/data/site';
-import { CitrusScene } from '@/components/scenes/citrus/CitrusScene';
-import { OldFilmScene } from '@/components/scenes/old-film/OldFilmScene';
-import { OvenScene } from '@/components/scenes/oven/OvenScene';
+import { BreadScene } from '@/components/scenes/bread/BreadScene';
+import { CakeWalkScene } from '@/components/scenes/cake-walk/CakeWalkScene';
+import { PanettoneScene } from '@/components/scenes/panettone/PanettoneScene';
 import styles from './sections.module.css';
 
 function SectionHeader({ id, eyebrow, title, lead }: { id: string; eyebrow: string; title: string; lead: string }) {
@@ -25,19 +25,32 @@ export function BreadsSection() {
         id="pans"
         eyebrow="Pa ecològic de massa mare"
         title="Pans"
-        lead="Farines ecològiques lliures de pesticides i glifosat, aigua purificada i vivificada i sal marina sense refinar. I sobretot, temps."
+        lead="Farines ecològiques lliures de pesticides i glifosat, massa mare, aigua purificada i vivificada i sal marina sense refinar."
       />
-      <OvenScene />
-      <div className={`container ${styles.breads}`}>
-        {breads.map((b, i) => (
-          <article key={b.name} className={`${styles.bread} reveal`} data-variant={i === 0 ? 'dark' : 'light'}>
-            <div className={styles.breadImage}>
-              <Image src={b.image} alt={b.name} fill sizes="(max-width: 800px) 100vw, 50vw" />
+      <BreadScene />
+      <div className={`container ${styles.labels}`}>
+        {breadLabels.map((label) => (
+          <article key={label.name} className={`${styles.label} reveal`} data-variant={label.label}>
+            <div className={styles.labelImage}>
+              <Image src={label.image} alt={label.imageAlt} fill sizes="(max-width: 800px) 100vw, 40vw" />
             </div>
-            <div className={styles.breadBody}>
-              <p className={styles.label}>{i === 0 ? 'Etiqueta negra' : 'Etiqueta blanca'}</p>
-              <h3>{b.name}</h3>
-              <p>{b.description}</p>
+            <div className={styles.labelBody}>
+              <p className={styles.tag}>Etiqueta {label.label}</p>
+              <h3>{label.name}</h3>
+              <p>{label.description}</p>
+              <ul className={styles.breadList}>
+                {label.breads.map((b) => (
+                  <li key={b.name}>
+                    <details>
+                      <summary>
+                        <Image src={b.image} alt="" width={96} height={96} sizes="56px" className={styles.breadThumb} />
+                        <span>{b.name}</span>
+                      </summary>
+                      <p>{b.ingredients.join(' · ')}</p>
+                    </details>
+                  </li>
+                ))}
+              </ul>
             </div>
           </article>
         ))}
@@ -55,7 +68,7 @@ export function CakesSection() {
         title="Pastissos"
         lead="Personalitza el teu pastís encarregant-lo a qualsevol de les nostres botigues."
       />
-      <OldFilmScene />
+      <CakeWalkScene />
       <div className="container">
         <ul className={styles.gallery}>
           {cakes.map((c) => (
@@ -81,9 +94,9 @@ export function SweetsSection() {
         id="dolcos"
         eyebrow="Bolleria fresca cada dia"
         title="Dolços"
-        lead="Magdalenes de kamut o espelta, croissants de mantega, minixuixos i galetes ecològiques. De l'obrador a les botigues cada matí."
+        lead="Magdalenes ecològiques amb farina de kamut o d'espelta, minixuixos, galetes eco i, per Nadal, panettone. De l'obrador a les botigues, cada dia."
       />
-      <CitrusScene />
+      <PanettoneScene />
       <div className={styles.carouselWrap}>
         <ul className={styles.carousel} aria-label="Els nostres dolços">
           {sweets.map((s) => (
@@ -145,7 +158,7 @@ export function CateringSection() {
             Càtering
           </h2>
           <p className="lead">
-            Esmorzars de feina, aniversaris, casaments o una reunió a casa: us ho portem tot, del pa al pastís.
+            A casamoner oferim un servei de càtering tant per a particulars com per a empreses i celebracions.
           </p>
           <div className={styles.cateringActions}>
             <a className="button" href={`mailto:${site.cateringEmail}`}>
@@ -163,10 +176,10 @@ export function CateringSection() {
 
 export function WorkshopSection() {
   const values = [
-    { title: 'Farines ecològiques', text: 'Lliures de pesticides i glifosat. Kamut, espelta i blats de la terra.' },
-    { title: 'Massa mare', text: 'Fermentacions llargues que donen aroma, crosta i un pa que dura.' },
+    { title: 'Farines ecològiques', text: 'Lliures de pesticides i glifosat. Kamut, espelta, fajol, sègol i farines de la terra.' },
+    { title: 'Massa mare', text: 'Tots els nostres pans, dels de l’Etiqueta Negra als de l’Etiqueta Blanca, porten massa mare.' },
     { title: 'Aigua i sal', text: 'Aigua purificada i vivificada i sal marina sense refinar.' },
-    { title: 'Cada dia', text: "Tot surt del nostre obrador cap a les botigues, cada matí." },
+    { title: 'Cada dia', text: "De l'obrador a les botigues, bolleria fresca cada dia." },
   ];
   return (
     <section id="obrador" aria-labelledby="obrador-title" className={styles.section}>
@@ -181,7 +194,7 @@ export function WorkshopSection() {
         <div className={`container ${styles.workshopBody}`}>
           <p className="eyebrow">L&apos;obrador</p>
           <h2 id="obrador-title" className="section-title">
-            Tot comença amb unes mans i farina.
+            De l&apos;obrador a les botigues.
           </h2>
         </div>
       </div>

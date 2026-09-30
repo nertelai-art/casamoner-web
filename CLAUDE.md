@@ -13,6 +13,8 @@ Valen les regles de casa. Aquí només el que és propi d'aquest repositori.
 - `src/domain`, `src/lib/motion`, `src/lib/scenes`, `src/lib/seo`: TypeScript pur.
   Res de React, Next, Leaflet ni components.
 - `leaflet` només es pot importar des de `src/components/map/leaflet/`.
+- `three` i `@react-three/*` només dins `src/components/three/canvas-kit.tsx` i
+  els `*Canvas.tsx`, que es carreguen amb `next/dynamic` (`ssr: false`).
 
 ## Escenes animades
 
@@ -20,8 +22,12 @@ Valen les regles de casa. Aquí només el que és propi d'aquest repositori.
   la lògica de temps va aquí i es prova aquí.
 - La vista escriu estils a refs dins `onFrame`; **no** facis `setState` per
   fotograma.
-- Les formes (`clip-path`, màscares) són en píxels de la foto original
-  optimitzada. Si canvies la foto, revisa-les.
+- Escenes 3D: segueix la guia `scroll-3d-scenes` (frameloop «demand», `damp`
+  amb delta limitat, zero objectes nous per fotograma). Les peces comunes són a
+  `src/components/three/canvas-kit.tsx`.
+- Escenes de foto: les capes surten de `pnpm scenes` (`scripts/scene-layers.ts`).
+  La geometria del panettone és a `src/data/scenes/panettone-geometry.json`; si
+  canvies una foto, regenera les capes i mira-les en clar i en fosc.
 - Res de `Math.random()` ni `Date.now()` als models: PRNG amb llavor
   (`lib/motion/prng.ts`); l'hora entra per paràmetre (`useNow` és l'únic lloc
   que llegeix el rellotge).

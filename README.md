@@ -7,13 +7,15 @@ de Girona. Next.js 16 + React 19 + TypeScript, desplegada a Vercel.
 
 - **Portada** amb pans, pastissos, dolços, salats, càtering, obrador, botigues i
   preguntes freqüents.
-- **Tres escenes animades lligades al scroll** on la foto cobra vida
-  ([spec 002](docs/specs/002-animacions.md)):
-  - *Pans*: les barres fermenten, entren al forn, es dauren i fumegen.
-  - *Pastissos*: el pastís entra a trompicons com una pel·lícula antiga i
-    recupera el color.
-  - *Dolços*: apareix la magdalena, cauen les llimones i després la fruita
-    confitada.
+- **Quatre escenes lligades al scroll** ([spec 002](docs/specs/002-animacions.md),
+  [spec 005](docs/specs/005-croissant-cafe.md)):
+  - *Cafeteria* (3D, three.js): un croissant cau sobre el plat, apareix la tassa,
+    s'omple de cafè, en surt vapor i el croissant queda mossegat.
+  - *Pans* (3D): una barra de massa mare s'infla, es cou, es daura i fumeja.
+  - *Pastissos*: el pastís de formatge entra caminant a trompicons dins la seva
+    pròpia foto, de la qual s'ha esborrat.
+  - *Dolços*: el panettone de Nadal es munta peça a peça (retalls amb fons
+    transparent) sobre el fons de la pàgina.
 - **21 botigues** amb mapa interactiu, filtre per població, «obert ara» i una
   fitxa estàtica per botiga amb horari, telèfon i com arribar-hi.
 - **SEO i GEO**: JSON-LD (`Organization`, `Bakery`, `FAQPage`,
@@ -44,6 +46,7 @@ pnpm check
 | `pnpm build` | Build de producció (Turbopack; és la que fa Vercel). |
 | `pnpm build:local` | Build de producció amb Webpack, per a aquesta màquina. |
 | `pnpm images` | Redimensiona les fotos originals d'`assets-src/` a `public/images/`. |
+| `pnpm scenes` | Genera les capes de les escenes (pastís sense fons, retalls del panettone) a `public/images/scenes/` i `src/data/scenes/layers.json`. |
 
 El hook de **pre-push** (`.githooks/pre-push`, s'activa sol amb `pnpm install`)
 passa typecheck, lint, tests i `gitleaks` si és instal·lat. La CI només fa la build.
@@ -61,10 +64,12 @@ src/
   domain/        Regles de negoci pures: horaris, distàncies, filtres (sense React)
   data/          Contingut tipat: botigues, catàleg, dades del lloc
   lib/motion/    Primitives d'animació: timeline, PRNG amb llavor, progrés de scroll
-  lib/scenes/    Models purs de les tres escenes: progrés → estat de cada capa
+  lib/scenes/    Models purs de les escenes: progrés → estat de cada peça
+  lib/image/     Clau de color per retallar fotos de fons blanc (s'usa en compilar)
   lib/seo/       Constructors de JSON-LD i de llms.txt
   components/
-    scenes/      Motor ScrollScene + vistes de les escenes
+    scenes/      Motor ScrollScene + vistes (les 3D a *Canvas.tsx, carregades diferides)
+    three/       Peces comunes dels canvas 3D (guia scroll-3d-scenes)
     map/         Port MapView; l'adaptador Leaflet és l'únic que coneix el proveïdor
     stores/      Cercador de botigues i estat «obert ara»
     sections/    Seccions de la portada

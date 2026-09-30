@@ -10,14 +10,14 @@ const MAX = 2000;
 
 const folderFor = (name) => {
   const prefix = name.split('-')[0];
-  return { botiga: 'botigues', pastis: 'pastissos', dolc: 'dolcos', salat: 'salats' }[prefix] ?? 'general';
+  return { botiga: 'botigues', pastis: 'pastissos', dolc: 'dolcos', salat: 'salats', pa: 'pans' }[prefix] ?? 'general';
 };
 
 const files = (await readdir(SRC)).filter((f) => f.endsWith('.jpg'));
 for (const file of files) {
   const dir = path.join(OUT, folderFor(file));
   await mkdir(dir, { recursive: true });
-  const name = file.replace(/^(botiga|pastis|dolc|salat)-/, '');
+  const name = file.replace(/^(botiga|pastis|dolc|salat|pa)-/, '');
   const info = await sharp(path.join(SRC, file))
     .rotate()
     .resize({ width: MAX, height: MAX, fit: 'inside', withoutEnlargement: true })

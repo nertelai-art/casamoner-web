@@ -1,0 +1,42 @@
+.layout {
+  position: absolute;
+  inset: 0;
+}
+
+/* El canvas ocupa tot l'escenari; l'escena es desplaça a la dreta per codi (setViewOffset). */
+.canvas {
+  position: absolute;
+  inset: 0;
+}
+
+.canvas canvas {
+  touch-action: pan-y;
+}
+
+.fallback {
+  object-fit: cover;
+  border-radius: calc(var(--radius) * 1.4);
+}
+
+.copy {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  width: min(100% - 2 * var(--gutter), var(--max));
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+.copy > * {
+  pointer-events: auto;
+  max-width: 26rem;
+}
+
+@media (max-width: 900px) {
+  .copy {
+    align-items: flex-start;
+    padding-top: 1.25rem;
+  }
+}

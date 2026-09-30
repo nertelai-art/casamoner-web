@@ -3,14 +3,13 @@ import { easeOutBack, easeOutBounce, easeOutCubic, lerp, segment } from '@/lib/m
 import { HIDDEN, type LayerState } from './layer';
 
 /**
- * Escena 1 (spec 002): apareix la magdalena, cauen els cítrics i després els
+ * Escena 3 (spec 002 v2): apareix el panettone, cauen els cítrics i després els
  * trossets de fruita confitada. Els intervals no se solapen (A-2, A-3).
  */
 export const CITRUS_PHASES = {
-  madeleine: [0.04, 0.26],
+  panettone: [0.04, 0.26],
   citrus: [0.28, 0.62],
-  crumbs: [0.64, 0.9],
-  finish: [0.9, 0.97],
+  crumbs: [0.64, 0.92],
 } as const;
 
 const CITRUS_DURATION = 0.14;
@@ -23,13 +22,9 @@ export interface CitrusConfig {
 }
 
 export interface CitrusFrame {
-  /** Opacitat del fons difuminat que dona l'ambient des del principi. */
-  backdrop: number;
-  madeleine: LayerState;
+  panettone: LayerState;
   citrus: LayerState[];
   crumbs: LayerState[];
-  /** Opacitat de la foto sencera a sobre, que tapa qualsevol costura al final. */
-  finish: number;
 }
 
 interface Drop {
@@ -86,10 +81,10 @@ function fall(progress: number, drop: Drop, duration: number): LayerState {
 
 export function citrusFrame(progress: number, config: CitrusConfig): CitrusFrame {
   const drops = dropsFor(config);
-  const [m0, m1] = CITRUS_PHASES.madeleine;
+  const [m0, m1] = CITRUS_PHASES.panettone;
   const m = segment(progress, m0, m1);
 
-  const madeleine: LayerState =
+  const panettone: LayerState =
     m === 0
       ? HIDDEN
       : {
@@ -101,10 +96,8 @@ export function citrusFrame(progress: number, config: CitrusConfig): CitrusFrame
         };
 
   return {
-    backdrop: segment(progress, 0, 0.12),
-    madeleine,
+    panettone,
     citrus: drops.citrus.map((d) => fall(progress, d, CITRUS_DURATION)),
     crumbs: drops.crumbs.map((d) => fall(progress, d, CRUMB_DURATION)),
-    finish: segment(progress, ...CITRUS_PHASES.finish),
   };
 }
