@@ -5,6 +5,9 @@ import { usePrefersReducedMotion } from '@/lib/hooks/usePrefersReducedMotion';
 import { scrollProgress } from '@/lib/motion/scroll';
 import styles from './ScrollScene.module.css';
 
+/** Temps sense scroll que es considera que el desplaçament s'ha aturat. */
+const SETTLE_MS = 200;
+
 interface ScrollSceneProps {
   /** Nom accessible de l'escena. */
   label: string;
@@ -42,6 +45,7 @@ export function ScrollScene({ label, onFrame, lengthVh = 320, className, childre
     let active = false;
     let last = -1;
     let finished = false;
+    let settle: ReturnType<typeof setTimeout> | undefined;
     // L'escenari s'enganxa sota la capçalera (--header-h).
     const headerHeight = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 0;
 
@@ -50,15 +54,28 @@ export function ScrollScene({ label, onFrame, lengthVh = 320, className, childre
      * l'escenari. Es mesura on queda la vora de baix abans i després i es
      * corregeix només el que s'hagi mogut (el navegador pot haver-ho compensat ja).
      */
-    const finish = (before: DOMRect) => {
-      finished = true;
-      onFrameRef.current(1);
+    const fold = () => {
+      const before = track.getBoundingClientRect();
       track.dataset.done = 'true';
       const after = track.getBoundingClientRect();
       const moved = after.top + after.height - (before.top + before.height);
       // «instant»: el document té scroll-behavior: smooth, i la compensació no s'ha de veure.
       if (moved !== 0) window.scrollBy({ top: moved, behavior: 'instant' });
       teardown();
+    };
+    /**
+     * Es plega quan el scroll s'atura, no abans: un scroll instantani a mig
+     * camí aturaria qualsevol scroll suau en curs (un enllaç a #botigues, p. ex.).
+     */
+    const settleThenFold = () => {
+      clearTimeout(settle);
+      settle = setTimeout(fold, SETTLE_MS);
+    };
+    const finish = () => {
+      finished = true;
+      onFrameRef.current(1);
+      window.addEventListener('scroll', settleThenFold, { passive: true });
+      settleThenFold();
     };
 
     const update = () => {
@@ -68,7 +85,7 @@ export function ScrollScene({ label, onFrame, lengthVh = 320, className, childre
       const progress = scrollProgress(rect, window.innerHeight, headerHeight);
       // Només una escena amb recorregut real (no sense maquetar) es pot donar per acabada.
       if (progress >= 1 && rect.height > window.innerHeight) {
-        finish(rect);
+        finish();
         return;
       }
       if (progress !== last) {
@@ -91,6 +108,8 @@ export function ScrollScene({ label, onFrame, lengthVh = 320, className, childre
       observer.disconnect();
       window.removeEventListener('scroll', schedule);
       window.removeEventListener('resize', schedule);
+      window.removeEventListener('scroll', settleThenFold);
+      clearTimeout(settle);
       if (raf) cancelAnimationFrame(raf);
     }
 

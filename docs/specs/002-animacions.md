@@ -29,7 +29,9 @@
 - **M-7** Cada escena es reprodueix **una sola vegada per visita**: quan el
   progrés arriba a 1 queda acabada (ja no es rebobina en tornar amunt) i el seu
   recorregut de scroll es plega a l'alçada de l'escenari, compensant la
-  posició de la pàgina perquè no hi hagi cap salt visual.
+  posició de la pàgina perquè no hi hagi cap salt visual. El plegat espera
+  que el scroll s'aturi (200 ms): fer-lo a mig desplaçament aturaria qualsevol
+  scroll suau en curs, com el d'un enllaç a una secció més avall.
 
 ## Escena 1 · Del llevat a la crosta (Pans) — fotos reals
 
