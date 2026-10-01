@@ -47,6 +47,24 @@ describe('croissant & coffee scene (3D)', () => {
     for (const p of samples) expect(croissantFrame(p).height).toBeGreaterThanOrEqual(0);
   });
 
+  it('K-8 the tray comes first; sandwich then juice arrive after the coffee and before the bite', () => {
+    const P = CROISSANT_PHASES;
+    expect(P.plate[0]).toBeGreaterThanOrEqual(P.tray[1]);
+    expect(P.sandwich[0]).toBeGreaterThanOrEqual(P.coffee[1]);
+    expect(P.juice[0]).toBeGreaterThanOrEqual(P.sandwich[1]);
+    expect(P.bite[0]).toBeGreaterThanOrEqual(P.juice[1]);
+    const start = croissantFrame(0);
+    expect([start.tray, start.sandwich, start.juice]).toEqual([0, 0, 0]);
+    const end = croissantFrame(1);
+    expect([end.tray, end.sandwich, end.juice, end.sandwichHeight]).toEqual([1, 1, 1, 0]);
+    expect(end.stage).toBe(3);
+    for (const p of samples) {
+      const f = croissantFrame(p);
+      if (f.plate > 0) expect(f.tray).toBe(1);
+      if (f.bite > 0) expect(f.juice).toBe(1);
+    }
+  });
+
   it('the bitten-off piece lifts away and is gone by the end', () => {
     expect(croissantFrame(CROISSANT_PHASES.bite[0] - 0.01).piece).toBe(0);
     expect(croissantFrame(CROISSANT_PHASES.bite[1] + 0.001).piece).toBeGreaterThan(0);

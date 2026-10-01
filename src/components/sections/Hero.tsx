@@ -3,8 +3,7 @@ import Link from 'next/link';
 import { Fragment } from 'react';
 import styles from './Hero.module.css';
 
-// El lema de la web actual de casamoner.
-const HEADLINE = ['Experimenta', 'el', 'plaer', 'del', 'nostre', 'pa.'];
+const HEADLINE = ['Avui', 'et', 'mereixes', 'un', 'casamoner.'];
 
 export function Hero({ storeCount }: { storeCount: number }) {
   return (
@@ -30,8 +29,8 @@ export function Hero({ storeCount }: { storeCount: number }) {
           ))}
         </h1>
         <p className={styles.lead}>
-          Massa mare, farines ecològiques lliures de pesticides i glifosat, i {storeCount} fleques entre Girona i la
-          Costa Brava.
+          Pa de massa mare, bolleria fresca i cafè, fets amb farines ecològiques lliures de pesticides i glifosat. Tens{' '}
+          {storeCount} fleques entre Girona i la Costa Brava: n’hi ha una a prop teu.
         </p>
         <div className={styles.actions}>
           <Link href="/botigues" className="button">

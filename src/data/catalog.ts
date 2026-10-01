@@ -94,7 +94,7 @@ export const cakes = [
 
 export const sweets = [
   { name: 'Magdalenes de kamut o espelta', image: '/images/dolcos/magdalenes.jpg' },
-  { name: 'Croissants', image: '/images/dolcos/croissants.jpg', description: "De l'obrador a les botigues, bolleria fresca cada dia." },
+  { name: 'Croissants farcits', image: '/images/dolcos/croissants-farcits.jpg', description: 'Farcits i banyats: cheesecake, festucs, tiramisú i lemon pie.' },
   { name: 'Minixuixos', image: '/images/dolcos/minixuixos.jpg' },
   { name: 'Galetes ecològiques', image: '/images/dolcos/galetes.jpg' },
   { name: 'Cremositats', image: '/images/dolcos/cremositats.jpg' },
