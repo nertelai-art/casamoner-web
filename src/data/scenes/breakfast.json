@@ -1,4 +1,19 @@
 {
+  "tray": {
+    "src": "/images/scenes/cafeteria/safata.webp",
+    "w": 1600,
+    "h": 980
+  },
+  "sandwich": {
+    "src": "/images/scenes/cafeteria/entrepa.webp",
+    "w": 1202,
+    "h": 1202
+  },
+  "juice": {
+    "src": "/images/scenes/cafeteria/suc.webp",
+    "w": 1048,
+    "h": 1048
+  },
   "plate": {
     "src": "/images/scenes/cafeteria/plat.webp",
     "w": 1408,

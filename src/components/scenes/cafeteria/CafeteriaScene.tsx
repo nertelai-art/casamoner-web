@@ -14,11 +14,14 @@ import styles from './CafeteriaScene.module.css';
 const RATIO = 1.6;
 type Spec = { cx: number; cy: number; w: number };
 /** On va cada peça, en % de la composició (vista des de dalt). */
-const PLATE: Spec = { cx: 36, cy: 55, w: 50 };
-const CROISSANT: Spec = { cx: 35, cy: 53, w: 34 };
-const CUP: Spec = { cx: 79, cy: 35, w: 29 };
+const TRAY: Spec = { cx: 50, cy: 50, w: 98 };
+const PLATE: Spec = { cx: 26, cy: 57, w: 37 };
+const CROISSANT: Spec = { cx: 25.5, cy: 55.5, w: 25 };
+const CUP: Spec = { cx: 54, cy: 27, w: 20 };
+const SANDWICH: Spec = { cx: 71, cy: 64, w: 33 };
+const JUICE: Spec = { cx: 85, cy: 23, w: 16 };
 
-const STEPS = ['Croissant acabat de fer', 'Un cafè', 'El primer mos'];
+const STEPS = ['Croissant acabat de fer', 'Un cafè', 'Entrepà i suc de taronja', 'El primer mos'];
 
 /** Caixa (left/top/width/height en %) d'una peça segons la seva proporció. */
 function place(spec: Spec, sprite: { w: number; h: number }) {
@@ -32,6 +35,9 @@ const pct = (box: ReturnType<typeof place>): CSSProperties => ({
   height: `${box.height}%`,
 });
 
+const trayBox = place(TRAY, layers.tray);
+const sandwichBox = place(SANDWICH, layers.sandwich);
+const juiceBox = place(JUICE, layers.juice);
 const plateBox = place(PLATE, layers.plate);
 const croissantBox = place(CROISSANT, layers.croissant);
 const cupBox = place(CUP, layers.cup);
@@ -42,16 +48,21 @@ const biteAt = {
   y: croissantBox.top + layers.bite.cy * croissantBox.height,
 };
 const CRUMB_SPOTS = [
-  { dx: 3, dy: 6, rot: 20, w: 2.6 },
-  { dx: -2, dy: 9, rot: -35, w: 2 },
-  { dx: 6, dy: 2, rot: 60, w: 2.2 },
-  { dx: 1, dy: 13, rot: 10, w: 3.4 },
-  { dx: 7, dy: 10, rot: -15, w: 1.6 },
+  { dx: 2.2, dy: 4.5, rot: 20, w: 1.9 },
+  { dx: -1.5, dy: 6.5, rot: -35, w: 1.5 },
+  { dx: 4.4, dy: 1.5, rot: 60, w: 1.6 },
+  { dx: 0.8, dy: 9.5, rot: 10, w: 2.5 },
+  { dx: 5, dy: 7.5, rot: -15, w: 1.2 },
 ];
 
 const FINAL = croissantFrame(1);
 
 export function CafeteriaScene() {
+  const tray = useRef<HTMLDivElement>(null);
+  const sandwich = useRef<HTMLDivElement>(null);
+  const sandwichShadow = useRef<HTMLDivElement>(null);
+  const juice = useRef<HTMLDivElement>(null);
+  const juiceShadow = useRef<HTMLDivElement>(null);
   const plate = useRef<HTMLDivElement>(null);
   const plateShadow = useRef<HTMLDivElement>(null);
   const croissant = useRef<HTMLDivElement>(null);
@@ -70,6 +81,11 @@ export function CafeteriaScene() {
 
   const onProgress = useCallback((p: number) => {
     const f: CroissantFrame = croissantFrame(p);
+    // Safata: entra lliscant des de baix i s'atura.
+    if (tray.current) {
+      tray.current.style.opacity = String(clamp(f.tray * 2.5));
+      tray.current.style.transform = `translateY(${((1 - f.tray) * 22).toFixed(2)}%) rotate(${((1 - f.tray) * -3).toFixed(2)}deg)`;
+    }
     // Plat: es posa a lloc.
     if (plate.current) {
       plate.current.style.opacity = String(clamp(f.plate * 1.6));
@@ -112,6 +128,24 @@ export function CafeteriaScene() {
     }
     steam.current = f.steam;
 
+    // Entrepà: el plat baixa de dalt i es deixa a la safata; l'ombra s'hi acosta.
+    const served = f.sandwich > 0 ? clamp(f.sandwich * 6) : 0;
+    const sh = f.sandwichHeight;
+    if (sandwich.current) {
+      sandwich.current.style.opacity = String(served);
+      sandwich.current.style.transform = `scale(${1 + 0.5 * sh}) rotate(${(14 * sh).toFixed(2)}deg)`;
+    }
+    if (sandwichShadow.current) {
+      sandwichShadow.current.style.opacity = String(served * lerp(1, 0.3, sh));
+      sandwichShadow.current.style.transform = `translate(${(3 + 12 * sh).toFixed(2)}%, ${(5 + 18 * sh).toFixed(2)}%) scale(${1.02 + 0.3 * sh})`;
+    }
+    // Suc: el got entra lliscant per la dreta.
+    if (juice.current) {
+      juice.current.style.opacity = String(clamp(f.juice * 3));
+      juice.current.style.transform = `translateX(${((1 - f.juice) * 70).toFixed(2)}%) scale(${lerp(1.2, 1, f.juice)})`;
+    }
+    if (juiceShadow.current) juiceShadow.current.style.opacity = String(clamp(f.juice * 1.5));
+
     // Molles: surten del mos i cauen al plat.
     crumbs.current.forEach((el, i) => {
       if (!el) return;
@@ -128,19 +162,28 @@ export function CafeteriaScene() {
 
   return (
     <section aria-labelledby="cafeteria-title">
-      <ScrollScene label="Animació: un croissant cau al plat, arriba el cafè i el primer mos" onFrame={onProgress} lengthVh={340}>
+      <ScrollScene
+        label="Animació: l’esmorzar a la safata. Croissant, cafè, entrepà, suc de taronja i el primer mos"
+        onFrame={onProgress}
+        lengthVh={400}
+      >
         <div className={styles.layout}>
           <SceneSteps
             ref={steps}
-            eyebrow="casamoner cafeteria"
-            title="Bon dia"
+            eyebrow="Esmorzars a casamoner"
+            title="Per tenir un bon dia, vine a casamoner."
             titleId="cafeteria-title"
             titleLevel={2}
-            text="De l'obrador a les botigues, bolleria fresca cada dia."
+            text="Seu, que t’ho portem a la safata: bolleria fresca de l’obrador, cafè i un entrepà. Tu només has de triar taula."
             steps={STEPS}
           />
 
           <div className={styles.composition} style={{ aspectRatio: `${RATIO}` }}>
+            {/* Safata */}
+            <div ref={tray} className={`${styles.piece} ${styles.tray}`} style={pct(trayBox)}>
+              <LayerImage src={layers.tray.src} loading="lazy" decoding="async" />
+            </div>
+
             {/* Plat */}
             <div ref={plateShadow} className={styles.roundShadow} style={{ ...pct(plateBox), opacity: FINAL.plate }} />
             <div ref={plate} className={styles.piece} style={pct(plateBox)}>
@@ -157,7 +200,7 @@ export function CafeteriaScene() {
               <LayerImage
                 ref={bitten}
                 src={layers.mossegat.src}
-                alt="Croissant mossegat sobre un plat"
+                alt="Safata d’esmorzar amb un croissant mossegat sobre un plat"
                 loading="lazy"
                 decoding="async"
               />
@@ -186,6 +229,18 @@ export function CafeteriaScene() {
                 />
               );
             })}
+
+            {/* Entrepà */}
+            <div ref={sandwichShadow} className={styles.roundShadow} style={pct(sandwichBox)} />
+            <div ref={sandwich} className={styles.piece} style={pct(sandwichBox)}>
+              <LayerImage src={layers.sandwich.src} alt="Entrepà en un plat" loading="lazy" decoding="async" />
+            </div>
+
+            {/* Suc de taronja */}
+            <div ref={juiceShadow} className={styles.roundShadow} style={pct(juiceBox)} />
+            <div ref={juice} className={styles.piece} style={pct(juiceBox)}>
+              <LayerImage src={layers.juice.src} alt="Got de suc de taronja" loading="lazy" decoding="async" />
+            </div>
 
             {/* Tassa amb cafè i vapor */}
             <div ref={cupShadow} className={styles.roundShadow} style={pct(cupBox)} />

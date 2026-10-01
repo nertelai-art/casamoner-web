@@ -1,7 +1,8 @@
 // Capes de l'escena de la cafeteria (spec 005 v2), a partir de fotos reals
-// (docs/CREDITS.md): plat, tassa, cafè, croissant, croissant mossegat, el tros
-// que s'arrenca i molles. Ús: pnpm breakfast
+// (docs/CREDITS.md): safata, plat, tassa, cafè, croissant, croissant mossegat,
+// el tros que s'arrenca, molles, entrepà i suc de taronja. Ús: pnpm breakfast
 import { mkdir, writeFile } from 'node:fs/promises';
+import sharp from 'sharp';
 import { biteCircles } from '../src/lib/image/bite.ts';
 import { keyWhite } from '../src/lib/image/chroma-key.ts';
 import { alphaBox, mask, rgb, smoothstep, writeRgba, type Box } from './lib/raster.ts';
@@ -37,6 +38,73 @@ function withAlpha(data: Uint8Array, n: number, alpha: (i: number) => number, co
 async function save(rgba: Uint8Array, width: number, height: number, box: Box, name: string, scale: number): Promise<Sprite> {
   await writeRgba(rgba, width, height, box, `${OUT}/${name}`, scale);
   return { src: `${URL}/${name}`, w: box.w, h: box.h };
+}
+
+// ── Safata ──────────────────────────────────────────────────────────────
+// L'única peça que no és una foto: una safata llisa de plàstic mat, del verd
+// oliva apagat de les cafeteries casamoner. Vora arrodonida i fons enfonsat.
+async function tray(): Promise<Sprite> {
+  const [w, h, r, lip] = [1600, 980, 110, 46];
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">
+    <defs>
+      <linearGradient id="rim" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#a9b48b"/><stop offset="1" stop-color="#7f8a63"/>
+      </linearGradient>
+      <linearGradient id="floor" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#8f9b70"/><stop offset="1" stop-color="#9aa67b"/>
+      </linearGradient>
+      <filter id="soft"><feGaussianBlur stdDeviation="14"/></filter>
+      <clipPath id="in"><rect x="${lip}" y="${lip}" width="${w - 2 * lip}" height="${h - 2 * lip}" rx="${r - lip * 0.6}"/></clipPath>
+    </defs>
+    <rect width="${w}" height="${h}" rx="${r}" fill="url(#rim)"/>
+    <rect x="${lip}" y="${lip}" width="${w - 2 * lip}" height="${h - 2 * lip}" rx="${r - lip * 0.6}" fill="url(#floor)"/>
+    <g clip-path="url(#in)" filter="url(#soft)" fill="none">
+      <path d="M${lip} ${h - lip} V${lip + r} Q${lip} ${lip} ${lip + r} ${lip} H${w - lip}" stroke="#5c6644" stroke-opacity="0.75" stroke-width="30"/>
+      <path d="M${lip} ${h - lip} H${w - lip - r} Q${w - lip} ${h - lip} ${w - lip} ${h - lip - r} V${lip}" stroke="#c3cca8" stroke-opacity="0.6" stroke-width="22"/>
+    </g>
+    <rect x="5" y="5" width="${w - 10}" height="${h - 10}" rx="${r - 5}" fill="none" stroke="#c9d2ad" stroke-opacity="0.55" stroke-width="5"/>
+  </svg>`;
+  await sharp(Buffer.from(svg)).webp({ quality: 80, alphaQuality: 80, effort: 6 }).toFile(`${OUT}/safata.webp`);
+  return { src: `${URL}/safata.webp`, w, h };
+}
+
+// ── Entrepà, al seu plat ────────────────────────────────────────────────
+async function sandwich() {
+  const { data, width, height } = await rgb(`${SRC}/entrepa.jpg`);
+  const [cx, cy, r] = [1716, 817, 597];
+  const m = await mask(width, height, circle(cx, cy, r), 2.5);
+  // El plat de la foto tira a blau; es neutralitza perquè faci joc amb l'altre plat.
+  const rgba = withAlpha(
+    data,
+    width * height,
+    (i) => m[i]! / 255,
+    (i) => {
+      const [r0, g0, b0] = [data[i * 3]!, data[i * 3 + 1]!, data[i * 3 + 2]!];
+      if (b0 < r0 || b0 < g0) return [r0, g0, b0];
+      const grey = ((r0 + g0 + b0) / 3) * 1.2;
+      const k = 0.75;
+      return [r0, g0, b0].map((c) => Math.min(255, Math.round(c * (1 - k) + grey * k))) as [number, number, number];
+    },
+  );
+  return save(rgba, width, height, { x: cx - r - 4, y: cy - r - 4, w: 2 * r + 8, h: 2 * r + 8 }, 'entrepa.webp', 0.6);
+}
+
+// ── Suc de taronja (got vist des de dalt) ───────────────────────────────
+async function juice() {
+  const { data, width, height } = await rgb(`${SRC}/suc.jpg`);
+  const glass = { cx: 1310, cy: 818, r: 520 };
+  const liquid = { cx: 1300, cy: 816, r: 380 };
+  const outer = await mask(width, height, circle(glass.cx, glass.cy, glass.r), 2);
+  const inner = await mask(width, height, circle(liquid.cx, liquid.cy, liquid.r), 6);
+  // El vidre és translúcid: a la paret del got s'hi ha de veure la safata, no el
+  // marbre de la foto. El suc i el seu reflex taronja a la paret, opacs.
+  const rgba = withAlpha(data, width * height, (i) => {
+    const yellow = smoothstep(30, 110, data[i * 3]! - data[i * 3 + 2]!);
+    const wall = Math.max(0.42, yellow);
+    return (outer[i]! / 255) * Math.max(inner[i]! / 255, wall);
+  });
+  const d = glass.r + 4;
+  return save(rgba, width, height, { x: glass.cx - d, y: glass.cy - d, w: 2 * d, h: 2 * d }, 'suc.webp', 0.5);
 }
 
 // ── Plat ────────────────────────────────────────────────────────────────
@@ -183,6 +251,6 @@ async function crumbs() {
 }
 
 await mkdir(OUT, { recursive: true });
-const layers = { plate: await plate(), cup: await cup(), coffee: await coffee(), ...(await croissant()), crumbs: await crumbs() };
+const layers = { tray: await tray(), sandwich: await sandwich(), juice: await juice(), plate: await plate(), cup: await cup(), coffee: await coffee(), ...(await croissant()), crumbs: await crumbs() };
 await writeFile('src/data/scenes/breakfast.json', JSON.stringify(layers, null, 2) + '\n');
 console.log('cafeteria:', Object.keys(layers).join(', '), `(${layers.crumbs.length} molles)`);
