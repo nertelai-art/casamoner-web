@@ -1,3 +1,4 @@
+import { Logo } from '@/components/layout/Logo';
 import Image from 'next/image';
 import { breadLabels, cakes, savories, sweets } from '@/data/catalog';
 import { site } from '@/data/site';
@@ -158,7 +159,7 @@ export function CateringSection() {
             Càtering
           </h2>
           <p className="lead">
-            A casamoner oferim un servei de càtering tant per a particulars com per a empreses i celebracions.
+            A <Logo inline /> oferim un servei de càtering tant per a particulars com per a empreses i celebracions.
           </p>
           <div className={styles.cateringActions}>
             <a className="button" href={`mailto:${site.cateringEmail}`}>

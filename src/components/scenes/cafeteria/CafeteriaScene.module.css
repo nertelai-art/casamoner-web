@@ -34,11 +34,6 @@
   filter: drop-shadow(0 1.2vw 1.6vw rgb(60 40 25 / 0.3));
 }
 
-/* La marca dins del títol, amb la mida del títol. */
-.brand {
-  font-size: 1em;
-}
-
 .cta {
   justify-self: start;
   margin-top: 0.4rem;

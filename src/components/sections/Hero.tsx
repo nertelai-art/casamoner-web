@@ -29,7 +29,7 @@ export function Hero({ storeCount }: { storeCount: number }) {
             </Fragment>
           ))}
           <span className={styles.word} style={{ animationDelay: `${120 + HEADLINE.length * 90}ms` }}>
-            <Logo className={styles.brand} />.
+            <Logo inline className={styles.brand} />.
           </span>
         </h1>
         <p className={styles.lead}>

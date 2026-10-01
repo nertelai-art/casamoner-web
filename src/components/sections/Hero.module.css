@@ -43,8 +43,7 @@
 
 /* La marca dins del titular, amb la mida del titular. */
 .brand {
-  font-size: 1em;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
 }
 
 .word {

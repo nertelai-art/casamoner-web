@@ -95,7 +95,14 @@ async function sandwich() {
     const lit = smoothstep(70, 120, (r + g + b) / 3 + 2 * (Math.max(r, g, b) - Math.min(r, g, b)));
     alpha[i] = (outline[i]! / 255) * Math.max(food * lit, core[i]! > 250 ? 1 : 0);
   }
-  const rgba = withAlpha(data, n, (i) => alpha[i]!);
+  // La foto és fosca i freda (llum de finestra); se li dona la llum càlida i
+  // viva de les altres peces: exposició, una corba que aixeca les ombres i saturació.
+  const lit = (i: number): [number, number, number] => {
+    const c = [data[i * 3]! * 1.04, data[i * 3 + 1]!, data[i * 3 + 2]! * 0.94].map((v) => 255 * Math.pow(Math.min(1, (v / 255) * 1.3), 0.82));
+    const luma = 0.3 * c[0]! + 0.59 * c[1]! + 0.11 * c[2]!;
+    return c.map((v) => Math.max(0, Math.min(255, Math.round(luma + (v - luma) * 1.22)))) as [number, number, number];
+  };
+  const rgba = withAlpha(data, n, (i) => alpha[i]!, lit);
   const box = alphaBox(rgba, width, { x: 0, y: 0, w: width, h: height })!;
   return save(rgba, width, height, box, 'entrepa.webp', 0.6);
 }

@@ -1,3 +1,4 @@
+import { Logo } from '@/components/layout/Logo';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -56,7 +57,7 @@ export default async function StorePage({ params }: { params: Params }) {
             <Link href="/">Inici</Link> / <Link href="/botigues">Botigues</Link> / <span aria-current="page">{store.name}</span>
           </nav>
           <h1 className={styles.title}>
-            <span className={styles.brand}>casamoner</span> {store.name}
+            <Logo inline className={styles.brand} /> {store.name}
           </h1>
           {store.subtitle && <p className={styles.subtitle}>{store.subtitle}</p>}
           {store.ametllerOrigen && <p className={styles.tag}>Dins d&apos;Ametller Origen</p>}

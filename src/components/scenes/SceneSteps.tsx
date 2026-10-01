@@ -1,6 +1,7 @@
 'use client';
 
 import { useImperativeHandle, useRef, type ReactNode, type Ref } from 'react';
+import { Branded } from '@/components/layout/Logo';
 import styles from './SceneSteps.module.css';
 
 export interface SceneStepsHandle {
@@ -10,7 +11,8 @@ export interface SceneStepsHandle {
 interface SceneStepsProps {
   ref?: Ref<SceneStepsHandle>;
   eyebrow: string;
-  title: ReactNode;
+  /** A l'encapçalament, al títol i al text, «casamoner» s'escriu amb el logotip. */
+  title: string;
   text: string;
   /** Passos narratius. Sense passos, el text queda com a missatge principal. */
   steps?: readonly string[];
@@ -39,11 +41,15 @@ export function SceneSteps({ ref, eyebrow, title, text, steps = [], tone = 'ligh
 
   return (
     <div className={styles.copy} data-tone={tone} data-steps={steps.length > 0}>
-      <p className="eyebrow">{eyebrow}</p>
+      <p className="eyebrow">
+        <Branded>{eyebrow}</Branded>
+      </p>
       <Title id={titleId} className={styles.title}>
-        {title}
+        <Branded>{title}</Branded>
       </Title>
-      <p className={styles.text}>{text}</p>
+      <p className={styles.text}>
+        <Branded>{text}</Branded>
+      </p>
       {children}
       {steps.length > 0 && (
         <ol ref={list} className={styles.steps}>
