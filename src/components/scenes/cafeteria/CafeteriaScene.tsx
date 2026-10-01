@@ -191,11 +191,7 @@ export function CafeteriaScene() {
           <SceneSteps
             ref={steps}
             eyebrow="Esmorzars a casamoner"
-            title={
-              <>
-                Per tenir un bon dia, vine a <Logo className={styles.brand} />.
-              </>
-            }
+            title="Per tenir un bon dia, vine a casamoner."
             titleId="cafeteria-title"
             titleLevel={2}
             text="Agafa la safata, tria el que et ve de gust i seu. Avui et mereixes començar bé."

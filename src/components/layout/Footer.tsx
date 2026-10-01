@@ -66,7 +66,9 @@ export function Footer() {
         </div>
       </div>
       <div className={`container ${styles.bottom}`}>
-        <p>© casamoner</p>
+        <p>
+          © <Logo inline />
+        </p>
       </div>
     </footer>
   );

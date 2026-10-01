@@ -7,11 +7,26 @@
 }
 
 .casa {
-  font-family: var(--font-sans);
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-variation-settings: 'SOFT' 100;
 }
 
 .moner {
   font-family: var(--font-sans);
-  font-weight: 300;
+  font-weight: 400;
+}
+
+/* Dins d'una frase o d'un titular: pren la mida del text i no n'hereta les majúscules. */
+.inline {
+  font-size: 1em;
+  line-height: inherit;
+  text-transform: none;
+  letter-spacing: -0.01em;
+}
+
+/* Als encapçalaments en majúscules petites, la marca (en minúscules) es compensa. */
+:global(.eyebrow) .inline {
+  font-size: 1.5em;
+  font-weight: 400;
 }
