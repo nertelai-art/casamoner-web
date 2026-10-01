@@ -8,7 +8,8 @@ export const CROISSANT_PHASES = {
   cup: [0.34, 0.44],
   coffee: [0.44, 0.54],
   steam: [0.52, 0.62],
-  sandwich: [0.6, 0.72],
+  sandwichPlate: [0.6, 0.65],
+  sandwich: [0.65, 0.72],
   juice: [0.72, 0.82],
   bite: [0.88, 0.9],
   crumbs: [0.9, 0.98],
@@ -21,9 +22,11 @@ export interface CroissantFrame {
   cup: number;
   coffee: number;
   steam: number;
-  /** 0–1: l'entrepà apareix i se serveix. */
+  /** 0–1: el plat de l'entrepà, amb el tovalló, es posa a la safata. */
+  sandwichPlate: number;
+  /** 0–1: l'entrepà cau al plat. */
   sandwich: number;
-  /** Alçada del plat de l'entrepà sobre la safata (1 = a dalt, 0 = reposant). */
+  /** Alçada de l'entrepà sobre el plat (1 = a dalt de tot, 0 = reposant). */
   sandwichHeight: number;
   juice: number;
   bite: number;
@@ -47,13 +50,14 @@ export function croissantFrame(progress: number): CroissantFrame {
     cup: easeOutCubic(segment(progress, ...P.cup)),
     coffee: easeInOutCubic(segment(progress, ...P.coffee)),
     steam: segment(progress, ...P.steam),
+    sandwichPlate: easeOutCubic(segment(progress, ...P.sandwichPlate)),
     sandwich: serve,
-    sandwichHeight: 1 - easeOutCubic(serve),
+    sandwichHeight: serve === 1 ? 0 : Math.max(0, 1 - easeOutBounce(serve)),
     juice: easeOutCubic(segment(progress, ...P.juice)),
     bite: segment(progress, ...P.bite),
     crumbs: segment(progress, ...P.crumbs),
     height: drop === 1 ? 0 : Math.max(0, 1 - easeOutBounce(drop)),
     piece: easeOutCubic(segment(progress, P.bite[1], P.bite[1] + 0.08)),
-    stage: progress < P.cup[0] ? 0 : progress < P.sandwich[0] ? 1 : progress < P.bite[0] - 0.03 ? 2 : 3,
+    stage: progress < P.cup[0] ? 0 : progress < P.sandwichPlate[0] ? 1 : progress < P.bite[0] - 0.03 ? 2 : 3,
   };
 }

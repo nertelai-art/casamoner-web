@@ -68,25 +68,36 @@ async function tray(): Promise<Sprite> {
   return { src: `${URL}/safata.webp`, w, h };
 }
 
-// ── Entrepà, al seu plat ────────────────────────────────────────────────
+// ── Entrepà (retallat del plat de la foto) ───────────────────────────────
+const SANDWICH: Pt[] = scalePts(
+  [
+    [1185, 392], [1240, 358], [1320, 348], [1400, 380], [1500, 436], [1620, 506], [1740, 576], [1822, 636],
+    [1860, 700], [1864, 780], [1852, 850], [1812, 902], [1772, 930], [1740, 962], [1690, 974], [1630, 966],
+    [1550, 926], [1410, 852], [1330, 802], [1260, 762], [1190, 712], [1138, 674], [1108, 640], [1100, 590],
+    [1102, 548], [1140, 486], [1156, 466], [1162, 428],
+  ],
+  1.2,
+);
+
 async function sandwich() {
   const { data, width, height } = await rgb(`${SRC}/entrepa.jpg`);
-  const [cx, cy, r] = [1716, 817, 597];
-  const m = await mask(width, height, circle(cx, cy, r), 2.5);
-  // El plat de la foto tira a blau; es neutralitza perquè faci joc amb l'altre plat.
-  const rgba = withAlpha(
-    data,
-    width * height,
-    (i) => m[i]! / 255,
-    (i) => {
-      const [r0, g0, b0] = [data[i * 3]!, data[i * 3 + 1]!, data[i * 3 + 2]!];
-      if (b0 < r0 || b0 < g0) return [r0, g0, b0];
-      const grey = ((r0 + g0 + b0) / 3) * 1.2;
-      const k = 0.75;
-      return [r0, g0, b0].map((c) => Math.min(255, Math.round(c * (1 - k) + grey * k))) as [number, number, number];
-    },
-  );
-  return save(rgba, width, height, { x: cx - r - 4, y: cy - r - 4, w: 2 * r + 8, h: 2 * r + 8 }, 'entrepa.webp', 0.6);
+  const n = width * height;
+  const poly = polygon(SANDWICH);
+  // Contorn generós i, dins, fora el plat i l'ombra: són freds (blau ≥ vermell),
+  // i el pa, l'enciam i el formatge són càlids o verds.
+  const outline = await mask(width, height, `<g stroke="#fff" stroke-width="20" stroke-linejoin="round">${poly}</g>`, 2);
+  const core = await mask(width, height, poly, 12);
+  const alpha = new Float32Array(n);
+  for (let i = 0; i < n; i++) {
+    const r = data[i * 3]!, g = data[i * 3 + 1]!, b = data[i * 3 + 2]!;
+    const food = smoothstep(4, 26, Math.max(r, g) - b);
+    // A la vora, l'ombra que l'entrepà fa al plat (fosca i gairebé grisa) tampoc hi va.
+    const lit = smoothstep(70, 120, (r + g + b) / 3 + 2 * (Math.max(r, g, b) - Math.min(r, g, b)));
+    alpha[i] = (outline[i]! / 255) * Math.max(food * lit, core[i]! > 250 ? 1 : 0);
+  }
+  const rgba = withAlpha(data, n, (i) => alpha[i]!);
+  const box = alphaBox(rgba, width, { x: 0, y: 0, w: width, h: height })!;
+  return save(rgba, width, height, box, 'entrepa.webp', 0.6);
 }
 
 // ── Suc de taronja (got vist des de dalt) ───────────────────────────────

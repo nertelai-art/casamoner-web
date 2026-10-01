@@ -1,6 +1,6 @@
 import styles from './Logo.module.css';
 
-/** Marca: «casa» amb serif i «moner» amb pal sec, com el logotip original. */
+/** Marca: «casa» en negreta i «moner» fi, tots dos de pal sec, com el logotip original. */
 export function Logo({ className }: { className?: string }) {
   return (
     <span className={`${styles.logo} ${className ?? ''}`}>

@@ -41,6 +41,12 @@
   font-variation-settings: 'SOFT' 50, 'opsz' 144;
 }
 
+/* La marca dins del titular, amb la mida del titular. */
+.brand {
+  font-size: 1em;
+  letter-spacing: -0.03em;
+}
+
 .word {
   display: inline-block;
   animation: rise 0.9s both cubic-bezier(0.2, 0.8, 0.2, 1);
