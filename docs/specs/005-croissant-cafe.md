@@ -10,6 +10,12 @@
 > **suc de taronja**. El croissant, el cafè i la mossegada final no canvien.
 > Els textos passen a tenir intenció («Per tenir un bon dia, vine a casamoner»).
 
+> **v4 (01/10/2026):** l'entrepà es retalla de la foto i cau al plat com el
+> croissant (abans era la foto sencera del plat i es notava). A cada plat hi ha
+> un **tovalló marró molt clar amb el logotip** de casamoner. El text ja no
+> descriu el que es veu (fora la llista de passos) i no promet servei a taula:
+> a casamoner la safata l'agafa el client.
+
 Escena guiada pel scroll, just després del hero, vista des de dalt.
 
 1. **Safata**: entra la safata verd oliva; tot el que ve després s'hi posa a sobre.
@@ -17,7 +23,7 @@ Escena guiada pel scroll, just després del hero, vista des de dalt.
 3. **Croissant**: baixa girant i es col·loca sobre el plat.
 4. **Tassa**: apareix la tassa amb el plat petit i s'omple de cafè.
 5. **Vapor**: puja vapor de la tassa.
-6. **Entrepà**: se serveix l'entrepà, al seu plat.
+6. **Entrepà**: arriba un segon plat amb el tovalló, i l'entrepà hi cau a sobre.
 7. **Suc**: arriba el got de suc de taronja.
 8. **Mossegada**: al croissant li falta un tros (marca de dents i interior
    fullat real a la vora), el tros arrencat s'aixeca i desapareix, i cauen molles
@@ -39,5 +45,9 @@ Escena guiada pel scroll, just després del hero, vista des de dalt.
 - **K-8** La safata és el primer que arriba i ha d'estar assentada abans que
   hi caigui el plat. L'entrepà i el suc arriben, en aquest ordre, després del
   cafè i abans de la mossegada, que continua sent el final.
+- **K-9** El plat de l'entrepà (amb el tovalló) s'ha assentat abans que l'entrepà
+  comenci a caure; l'entrepà és a l'aire mentre cau i reposa al final.
+- **K-10** El text de la secció té intenció i no enumera el que es veu a la
+  imatge; no parla de servei a taula.
 - **K-6** El text de la secció (títol, passos) és HTML real; el canvas porta
   `aria-hidden`.

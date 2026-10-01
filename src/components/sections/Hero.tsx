@@ -1,9 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Fragment } from 'react';
+import { Logo } from '@/components/layout/Logo';
 import styles from './Hero.module.css';
 
-const HEADLINE = ['Avui', 'et', 'mereixes', 'un', 'casamoner.'];
+const HEADLINE = ['Avui', 'et', 'mereixes', 'un'];
 
 export function Hero({ storeCount }: { storeCount: number }) {
   return (
@@ -27,6 +28,9 @@ export function Hero({ storeCount }: { storeCount: number }) {
               </span>{' '}
             </Fragment>
           ))}
+          <span className={styles.word} style={{ animationDelay: `${120 + HEADLINE.length * 90}ms` }}>
+            <Logo className={styles.brand} />.
+          </span>
         </h1>
         <p className={styles.lead}>
           Pa de massa mare, bolleria fresca i cafè, fets amb farines ecològiques lliures de pesticides i glifosat. Tens{' '}

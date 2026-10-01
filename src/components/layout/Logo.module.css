@@ -7,12 +7,11 @@
 }
 
 .casa {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-variation-settings: 'SOFT' 100;
+  font-family: var(--font-sans);
+  font-weight: 600;
 }
 
 .moner {
   font-family: var(--font-sans);
-  font-weight: 400;
+  font-weight: 300;
 }

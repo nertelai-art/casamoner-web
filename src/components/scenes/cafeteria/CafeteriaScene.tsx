@@ -1,6 +1,8 @@
 'use client';
 
+import Link from 'next/link';
 import { useCallback, useRef, type CSSProperties } from 'react';
+import { Logo } from '@/components/layout/Logo';
 import layers from '@/data/scenes/breakfast.json';
 import { croissantFrame, type CroissantFrame } from '@/lib/scenes/croissant';
 import { clamp, lerp } from '@/lib/motion/timeline';
@@ -18,10 +20,10 @@ const TRAY: Spec = { cx: 50, cy: 50, w: 98 };
 const PLATE: Spec = { cx: 26, cy: 57, w: 37 };
 const CROISSANT: Spec = { cx: 25.5, cy: 55.5, w: 25 };
 const CUP: Spec = { cx: 54, cy: 27, w: 20 };
-const SANDWICH: Spec = { cx: 71, cy: 64, w: 33 };
+const SANDWICH_PLATE: Spec = { cx: 71, cy: 64, w: 34 };
+const SANDWICH: Spec = { cx: 71, cy: 63, w: 27 };
 const JUICE: Spec = { cx: 85, cy: 23, w: 16 };
 
-const STEPS = ['Croissant acabat de fer', 'Un cafè', 'Entrepà i suc de taronja', 'El primer mos'];
 
 /** Caixa (left/top/width/height en %) d'una peça segons la seva proporció. */
 function place(spec: Spec, sprite: { w: number; h: number }) {
@@ -36,6 +38,7 @@ const pct = (box: ReturnType<typeof place>): CSSProperties => ({
 });
 
 const trayBox = place(TRAY, layers.tray);
+const sandwichPlateBox = place(SANDWICH_PLATE, layers.plate);
 const sandwichBox = place(SANDWICH, layers.sandwich);
 const juiceBox = place(JUICE, layers.juice);
 const plateBox = place(PLATE, layers.plate);
@@ -57,8 +60,19 @@ const CRUMB_SPOTS = [
 
 const FINAL = croissantFrame(1);
 
+/** Tovalló de paper marró clar amb la marca, sota el menjar de cada plat. */
+function Napkin({ className }: { className?: string }) {
+  return (
+    <span className={`${styles.napkin} ${className ?? ''}`} aria-hidden="true">
+      <Logo className={styles.napkinLogo} />
+    </span>
+  );
+}
+
 export function CafeteriaScene() {
   const tray = useRef<HTMLDivElement>(null);
+  const sandwichPlate = useRef<HTMLDivElement>(null);
+  const sandwichPlateShadow = useRef<HTMLDivElement>(null);
   const sandwich = useRef<HTMLDivElement>(null);
   const sandwichShadow = useRef<HTMLDivElement>(null);
   const juice = useRef<HTMLDivElement>(null);
@@ -128,16 +142,22 @@ export function CafeteriaScene() {
     }
     steam.current = f.steam;
 
-    // Entrepà: el plat baixa de dalt i es deixa a la safata; l'ombra s'hi acosta.
-    const served = f.sandwich > 0 ? clamp(f.sandwich * 6) : 0;
+    // Plat de l'entrepà, amb el tovalló: entra lliscant per baix.
+    if (sandwichPlate.current) {
+      sandwichPlate.current.style.opacity = String(clamp(f.sandwichPlate * 3));
+      sandwichPlate.current.style.transform = `translateY(${((1 - f.sandwichPlate) * 40).toFixed(2)}%) scale(${lerp(1.12, 1, f.sandwichPlate)})`;
+    }
+    if (sandwichPlateShadow.current) sandwichPlateShadow.current.style.opacity = String(clamp(f.sandwichPlate * 1.5));
+    // Entrepà: cau girant, com el croissant, i l'ombra s'hi acosta.
+    const served = f.sandwich > 0 ? clamp(f.sandwich * 8) : 0;
     const sh = f.sandwichHeight;
     if (sandwich.current) {
       sandwich.current.style.opacity = String(served);
-      sandwich.current.style.transform = `scale(${1 + 0.5 * sh}) rotate(${(14 * sh).toFixed(2)}deg)`;
+      sandwich.current.style.transform = `scale(${1 + 0.8 * sh}) rotate(${(26 * sh).toFixed(2)}deg)`;
     }
     if (sandwichShadow.current) {
-      sandwichShadow.current.style.opacity = String(served * lerp(1, 0.3, sh));
-      sandwichShadow.current.style.transform = `translate(${(3 + 12 * sh).toFixed(2)}%, ${(5 + 18 * sh).toFixed(2)}%) scale(${1.02 + 0.3 * sh})`;
+      sandwichShadow.current.style.opacity = String(served * lerp(0.42, 0.12, sh));
+      sandwichShadow.current.style.transform = `translate(${(1.5 + 14 * sh).toFixed(2)}%, ${(3.5 + 22 * sh).toFixed(2)}%) scale(${1 + 0.35 * sh}) rotate(${(26 * sh).toFixed(2)}deg)`;
     }
     // Suc: el got entra lliscant per la dreta.
     if (juice.current) {
@@ -171,12 +191,19 @@ export function CafeteriaScene() {
           <SceneSteps
             ref={steps}
             eyebrow="Esmorzars a casamoner"
-            title="Per tenir un bon dia, vine a casamoner."
+            title={
+              <>
+                Per tenir un bon dia, vine a <Logo className={styles.brand} />.
+              </>
+            }
             titleId="cafeteria-title"
             titleLevel={2}
-            text="Seu, que t’ho portem a la safata: bolleria fresca de l’obrador, cafè i un entrepà. Tu només has de triar taula."
-            steps={STEPS}
-          />
+            text="Agafa la safata, tria el que et ve de gust i seu. Avui et mereixes començar bé."
+          >
+            <Link href="/botigues" className={`button ${styles.cta}`}>
+              Troba la teva fleca
+            </Link>
+          </SceneSteps>
 
           <div className={styles.composition} style={{ aspectRatio: `${RATIO}` }}>
             {/* Safata */}
@@ -188,6 +215,7 @@ export function CafeteriaScene() {
             <div ref={plateShadow} className={styles.roundShadow} style={{ ...pct(plateBox), opacity: FINAL.plate }} />
             <div ref={plate} className={styles.piece} style={pct(plateBox)}>
               <LayerImage src={layers.plate.src} loading="lazy" decoding="async" />
+              <Napkin className={styles.napkinCroissant} />
             </div>
 
             {/* Ombra del croissant: la seva silueta, fosca i difuminada */}
@@ -230,10 +258,17 @@ export function CafeteriaScene() {
               );
             })}
 
-            {/* Entrepà */}
-            <div ref={sandwichShadow} className={styles.roundShadow} style={pct(sandwichBox)} />
+            {/* Entrepà: plat amb tovalló, i l'entrepà retallat amb la seva ombra */}
+            <div ref={sandwichPlateShadow} className={styles.roundShadow} style={pct(sandwichPlateBox)} />
+            <div ref={sandwichPlate} className={styles.piece} style={pct(sandwichPlateBox)}>
+              <LayerImage src={layers.plate.src} loading="lazy" decoding="async" />
+              <Napkin className={styles.napkinSandwich} />
+            </div>
+            <div ref={sandwichShadow} className={`${styles.piece} ${styles.silhouette}`} style={pct(sandwichBox)}>
+              <LayerImage src={layers.sandwich.src} loading="lazy" decoding="async" />
+            </div>
             <div ref={sandwich} className={styles.piece} style={pct(sandwichBox)}>
-              <LayerImage src={layers.sandwich.src} alt="Entrepà en un plat" loading="lazy" decoding="async" />
+              <LayerImage src={layers.sandwich.src} alt="Entrepà sobre un tovalló" loading="lazy" decoding="async" />
             </div>
 
             {/* Suc de taronja */}

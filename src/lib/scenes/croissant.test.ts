@@ -65,6 +65,20 @@ describe('croissant & coffee scene (3D)', () => {
     }
   });
 
+  it('K-9 the sandwich plate settles first, then the sandwich drops onto it', () => {
+    const P = CROISSANT_PHASES;
+    expect(P.sandwich[0]).toBeGreaterThanOrEqual(P.sandwichPlate[1]);
+    expect(P.sandwichPlate[0]).toBeGreaterThanOrEqual(P.coffee[1]);
+    expect(croissantFrame(P.sandwich[0] + 0.001).sandwichHeight).toBeGreaterThan(0.9);
+    expect(croissantFrame(P.sandwich[1]).sandwichHeight).toBe(0);
+    for (const p of samples) {
+      const f = croissantFrame(p);
+      if (f.sandwich > 0) expect(f.sandwichPlate).toBe(1);
+      expect(f.sandwichHeight).toBeGreaterThanOrEqual(0);
+    }
+    expect(croissantFrame(1).sandwichPlate).toBe(1);
+  });
+
   it('the bitten-off piece lifts away and is gone by the end', () => {
     expect(croissantFrame(CROISSANT_PHASES.bite[0] - 0.01).piece).toBe(0);
     expect(croissantFrame(CROISSANT_PHASES.bite[1] + 0.001).piece).toBeGreaterThan(0);
