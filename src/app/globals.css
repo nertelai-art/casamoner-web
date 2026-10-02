@@ -21,26 +21,8 @@
   --font-display: var(--font-fraunces), 'Iowan Old Style', Georgia, serif;
   --font-sans: var(--font-jost), system-ui, sans-serif;
 
-  color-scheme: light;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper: #16110d;
-    --paper-2: #1f1812;
-    --card: #231b15;
-    --ink: #f4ebdd;
-    --ink-soft: #c8b7a3;
-    --crust: #e2804f;
-    --crust-strong: #f09a6c;
-    --gold: #e9b04a;
-    --leaf: #9cbc7f;
-    --line: rgb(244 235 221 / 0.14);
-    --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 16px 40px -16px rgb(0 0 0 / 0.7);
-    --open: #7fcf8e;
-    --closed: #f09a6c;
-    color-scheme: dark;
-  }
+  /* Sempre en clar, també amb el dispositiu en mode fosc: el fons crema és part de la marca. */
+  color-scheme: only light;
 }
 
 *,
