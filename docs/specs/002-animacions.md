@@ -74,7 +74,7 @@ Foto: `dolcos/panettone.jpg`, trossejada en compilar
 (`scripts/panettone-layers.mjs`) en retalls amb fons transparent: el
 panettone, cada cítric i els trossets de fruita confitada. El fons blanc de la
 foto s'elimina (clau de color), així les peces es veuen sobre el fons de la
-pàgina, en mode clar i en mode fosc.
+pàgina. La web és sempre en clar, també amb el dispositiu en mode fosc.
 
 1. apareix el panettone,
 2. cauen les llimones i taronges i reboten,

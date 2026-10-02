@@ -54,9 +54,3 @@
   font-weight: 600;
   color: var(--crust, #a4471b) !important;
 }
-
-@media (prefers-color-scheme: dark) {
-  .leaflet-tile-pane {
-    filter: invert(1) hue-rotate(180deg) brightness(0.85) contrast(0.9) saturate(0.6);
-  }
-}

@@ -25,7 +25,7 @@ Valen les regles de casa. Aquí només el que és propi d'aquest repositori.
   a `docs/CREDITS.md`.
 - Escenes de foto: les capes surten de `pnpm scenes` (`scripts/scene-layers.ts`).
   La geometria del panettone és a `src/data/scenes/panettone-geometry.json`; si
-  canvies una foto, regenera les capes i mira-les en clar i en fosc.
+  canvies una foto, regenera les capes i mira-les sobre el fons de la pàgina (la web és sempre en clar).
 - Res de `Math.random()` ni `Date.now()` als models: PRNG amb llavor
   (`lib/motion/prng.ts`); l'hora entra per paràmetre (`useNow` és l'únic lloc
   que llegeix el rellotge).
