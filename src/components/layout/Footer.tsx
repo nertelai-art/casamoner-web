@@ -1,7 +1,9 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { site } from '@/data/site';
 import { storeRepository } from '@/data/stores';
 import { Logo } from './Logo';
+import { nertelCreditUrl } from './nertel-credit';
 import styles from './Footer.module.css';
 
 export function Footer() {
@@ -69,6 +71,23 @@ export function Footer() {
         <p>
           © <Logo inline />
         </p>
+      </div>
+
+      {/* Qui ha fet la web (spec 006). Franja pròpia sota el peu, discreta, que porta a nertel.ai. */}
+      <div className={styles.credit}>
+        <div className={`container ${styles.creditInner}`}>
+          <a href={nertelCreditUrl()} target="_blank" rel="noopener" className={styles.creditLink}>
+            <span>Web feta per</span>
+            <Image
+              src="/images/logos/nertel-mark.png"
+              alt=""
+              width={116}
+              height={96}
+              className={styles.creditMark}
+            />
+            <span className={styles.creditName}>Nertel</span>
+          </a>
+        </div>
       </div>
     </footer>
   );
